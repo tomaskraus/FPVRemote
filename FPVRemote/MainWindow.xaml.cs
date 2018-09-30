@@ -19,6 +19,8 @@ using IniParser.Model;
 
 using FPVRemote.Joyinput;
 
+using WPFMediaKit.DirectShow.Controls;
+
 
 namespace FPVRemote
 {
@@ -28,6 +30,8 @@ namespace FPVRemote
     public partial class MainWindow : Window
     {
         private DispatcherTimer _inputCheckTimer;
+        private VideoCaptureElement _frontView;
+
 
         IJoyInput ji;
 
@@ -55,6 +59,9 @@ namespace FPVRemote
 
 
             StartNewInputCheckTimer();
+
+            // Start the camera feeds
+            StartAllCameras(data, "FPV");
         }
 
         private void StartNewInputCheckTimer()
@@ -85,5 +92,44 @@ namespace FPVRemote
         {
 
         }
+
+
+        // -- FPV ----------------------------------------------------------------------------
+
+        public void StartAllCameras(IniData configData, string key)
+        {
+            int cameraIndex = int.Parse(configData[key]["cameraId"]);
+            StartCamera(ref _frontView, 480, 240, 15, cameraIndex);
+        }
+
+        private void StartCamera(ref VideoCaptureElement camera, int width, int height, int fps, int deviceIndex)
+        {
+            if (deviceIndex >= MultimediaUtil.VideoInputDevices.Length || deviceIndex < 0)
+            {
+                // Invalid device index should be ignored
+                return;
+            }
+
+            // Initialize the element
+            camera = new VideoCaptureElement
+            {
+                DesiredPixelWidth = width,
+                DesiredPixelHeight = height,
+                FPS = fps,
+                VideoCaptureDevice = MultimediaUtil.VideoInputDevices[deviceIndex]
+            };
+
+            camera.BeginInit();
+            camera.EndInit();
+
+            // Add the control to layout
+            camera.Width = CameraCanvas.Width;
+            camera.Height = CameraCanvas.Height;
+            CameraCanvas.Children.Add(camera);
+
+            // start the camera stream
+            camera.Play();
+        }
+
     }
 }

@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FPVRemote"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="24" Margin="40,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>
+        Title="FPVRemote" Height="700" Width="1200" ResizeMode="CanMinimize" WindowState="Maximized">
+    <Canvas Name="Canvas">
+        <Grid>
+            <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="24" Margin="40,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>
 
-    </Grid>
+
+        </Grid>
+        <Canvas Name="CameraCanvas" Width="{Binding ActualWidth, ElementName=Canvas}" Height="{Binding ActualHeight, ElementName=Canvas}" Canvas.ZIndex="2" />
+    </Canvas>
 </Window>
