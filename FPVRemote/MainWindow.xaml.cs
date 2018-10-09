@@ -54,7 +54,14 @@ namespace FPVRemote
 
             // ji = new CountJoyInput().InitFromConfig(data, "COUNTJOY2")
             ji = new GamePadInput()
-                .Chain(new LimitJoyInput(50000));
+                .Chain(new MapRangeInput(new RangeMapping
+                {
+                    minFrom = -65535,
+                    maxFrom = 65535,
+                    minTo = 0,
+                    maxTo = 255
+                }))
+                ;
 
             rcSender = new SerialRCSender().InitFromConfig(data, "RC");
 

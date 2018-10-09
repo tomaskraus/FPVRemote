@@ -75,6 +75,7 @@
     <Compile Include="src\Joyinput\CountJoyInput.cs" />
     <Compile Include="src\Joyinput\GamePadInput.cs" />
     <Compile Include="src\Joyinput\IJoyInput.cs" />
+    <Compile Include="src\Joyinput\MapRangeInput.cs" />
     <Compile Include="src\RCSender\SerialRCSender.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
