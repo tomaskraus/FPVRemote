@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FPVRemote"
         mc:Ignorable="d"
-        Title="FPVRemote" Height="700" Width="1200" ResizeMode="CanMinimize" WindowState="Maximized">
+        Title="FPVRemote" Height="700" Width="1200" WindowState="Maximized">
     <Canvas Name="Canvas">
         <Grid>
             <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="24" Margin="40,39,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>

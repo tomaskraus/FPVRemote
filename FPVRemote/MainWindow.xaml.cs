@@ -18,6 +18,7 @@ using IniParser;
 using IniParser.Model;
 
 using FPVRemote.Joyinput;
+using FPVRemote.RCSender;
 
 using WPFMediaKit.DirectShow.Controls;
 
@@ -34,6 +35,7 @@ namespace FPVRemote
 
 
         IJoyInput ji;
+        SerialRCSender rcSender;
 
         public MainWindow()
         {
@@ -52,11 +54,16 @@ namespace FPVRemote
 
             // ji = new CountJoyInput().InitFromConfig(data, "COUNTJOY2")
             ji = new GamePadInput()
-                .Chain(new LimitJoyInput(3500));
+                .Chain(new MapRangeInput(new RangeMapping
+                {
+                    minFrom = -65535,
+                    maxFrom = 65535,
+                    minTo = 0,
+                    maxTo = 255
+                }))
+                ;
 
-
-
-
+            rcSender = new SerialRCSender().InitFromConfig(data, "RC");
 
             StartNewInputCheckTimer();
 
@@ -80,6 +87,8 @@ namespace FPVRemote
         {
             ji.Poll();
             XAxisTextBox.Text = ji.Values.x.ToString();
+
+            rcSender.Send(ji.Values.x.ToString() + "\n");
         }
 
 
