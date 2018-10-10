@@ -28,7 +28,7 @@ namespace FPVRemote
     /// </summary>
     public partial class MainWindow : Window
     {
-        const int NUM_OF_CHANNELS = 1;
+        const int NUM_OF_CHANNELS = 4;
 
         private DispatcherTimer _inputCheckTimer;
         private VideoCaptureElement _frontView;
@@ -56,7 +56,7 @@ namespace FPVRemote
 
             rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
             inputResults = new short[rcSender.NumOfChannels];
-            initInputControls(data);
+            initInputControls(data, ref inputResults);
 
             StartNewInputCheckTimer();
 

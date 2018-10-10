@@ -42,6 +42,7 @@ namespace FPVRemote.RCSender
         public void sendValues(short[] values)
         {
             StringBuilder res = new StringBuilder();
+            res.Append("*");
             for (int i = 0; i < numOfChannels - 1; i++)
             {
                 res.Append(values[i].ToString()).Append(" ");
