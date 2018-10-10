@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Controls.cs" />
     <Compile Include="src\valueChanger\AValueChanger.cs" />
     <Compile Include="src\valueChanger\InputChanger.cs" />
     <Compile Include="src\valueChanger\IValueChanger.cs" />
