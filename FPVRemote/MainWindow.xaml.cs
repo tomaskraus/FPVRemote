@@ -52,7 +52,6 @@ namespace FPVRemote
             var Parser = new FileIniDataParser();
             IniData data = Parser.ReadFile("config.ini");
 
-            // ji = new CountJoyInput().InitFromConfig(data, "COUNTJOY2")
             ji = new GamePadInput()
                 .Chain(new MapRangeInput(new RangeMapping
                 {
@@ -85,10 +84,10 @@ namespace FPVRemote
 
         private void InputCheckTimerOnTick(object sender, EventArgs eventArgs)
         {
-            ji.Poll();
-            XAxisTextBox.Text = ji.Values.x.ToString();
+            int v = ji.ComputeValue();
+            XAxisTextBox.Text = v.ToString();
 
-            rcSender.Send(ji.Values.x.ToString() + "\n");
+            rcSender.Send(v.ToString() + "\n");
         }
 
 

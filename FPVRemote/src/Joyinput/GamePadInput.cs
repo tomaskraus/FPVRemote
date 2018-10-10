@@ -6,11 +6,11 @@ namespace FPVRemote.Joyinput
     {
         private GamePadState state;
 
-        protected override void PollImpl()
+        protected override int ComputeImpl(int val)
         {
             state = GamePad.GetState(PlayerIndex.One);
 
-            vals.x = (int)(state.ThumbSticks.Left.X * ushort.MaxValue);
+            return (int)(state.ThumbSticks.Left.X * ushort.MaxValue);
         }
     }
 }

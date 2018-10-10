@@ -28,18 +28,16 @@ namespace FPVRemote.Joyinput
             this.factor = (float)(this.mapping.maxTo - this.mapping.minTo) / (this.mapping.maxFrom - this.mapping.minFrom);
         }
 
-        protected override void PollImpl()
+        protected override int ComputeImpl(int val)
         {
-            if (vals.x < mapping.minFrom) {
-                vals.x = mapping.minFrom;
+            if (val < mapping.minFrom) {
+                val = mapping.minFrom;
             }
-            if (vals.x > mapping.maxFrom)
+            if (val > mapping.maxFrom)
             {
-                vals.x = mapping.maxFrom;
-            }
-
-            //TODO do a rounding instead a cutoff
-            vals.x = (int)(mapping.minTo + (Math.Abs(vals.x - mapping.minFrom)) * factor);
+                val = mapping.maxFrom;
+            }            
+            return (int)(Math.Round(mapping.minTo + (Math.Abs(val - mapping.minFrom)) * factor));
         }
     }
 }

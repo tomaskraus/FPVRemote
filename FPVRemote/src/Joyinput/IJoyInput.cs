@@ -2,27 +2,9 @@
 
 namespace FPVRemote.Joyinput
 {
-    /// <summary>
-    /// holds joystick's controls values
-    /// </summary>
-    public struct JoyValues
-    {
-        public int x;
-        public int y;
-
-        public override string ToString()
-        {
-            return x + ", " + y;
-        }
-    }
 
     public interface IJoyInput
     {
-
-        JoyValues Values
-        {
-            get;
-        }
 
         IJoyInput SrcInput
         {
@@ -30,9 +12,9 @@ namespace FPVRemote.Joyinput
         }
 
         /// <summary>
-        /// Polls joystick's state of the controls.
+        /// Computes joystick's value.
         /// </summary>
-        void Poll();
+        int ComputeValue();
 
         /// <summary>
         /// Chains iJoyInput easily. Assigns this as nextInput's srcInput.

@@ -5,9 +5,8 @@
     /// </summary>
     public abstract class AJoyInput : IJoyInput
     {
-        protected JoyValues vals;
+        protected int value;
 
-        public JoyValues Values { get => vals; }
         public IJoyInput SrcInput { get; set; }
 
         public IJoyInput Chain(IJoyInput nextInput) {
@@ -15,16 +14,15 @@
             return nextInput;
         }
 
-        public void Poll()
+        public int ComputeValue()
         {
             if (SrcInput != null)
             {
-                SrcInput.Poll();
-                vals = SrcInput.Values;
+                value = SrcInput.ComputeValue();                                                                                            
             }
-            PollImpl();
+            return ComputeImpl(value);
         }
 
-        protected abstract void PollImpl();
+        protected abstract int ComputeImpl(int val);
     }
 }

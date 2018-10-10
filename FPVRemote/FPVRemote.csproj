@@ -72,7 +72,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\Joyinput\AJoyInput.cs" />
-    <Compile Include="src\Joyinput\CountJoyInput.cs" />
     <Compile Include="src\Joyinput\GamePadInput.cs" />
     <Compile Include="src\Joyinput\IJoyInput.cs" />
     <Compile Include="src\Joyinput\MapRangeInput.cs" />
