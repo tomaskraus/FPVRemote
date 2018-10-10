@@ -9,7 +9,7 @@ using IniParser;
 using IniParser.Model;
 
 using FPVRemote.valueChanger;
-using FPVRemote.RCSender;
+
 
 // joystick
 using XInputDotNetPure;
@@ -27,7 +27,7 @@ namespace FPVRemote
 
         IValueChanger ji;
         InputChanger chgInputX;
-        SerialRCSender rcSender;
+        
 
 
 
@@ -46,20 +46,21 @@ namespace FPVRemote
                 }))
                 ;
 
-            rcSender = new SerialRCSender().InitFromConfig(data, "RC");
+            
         }
 
 
         // LOOP -----------------------------------------------------------------
 
-        public void loopInputControls()
+        public void loopInputControls(ref short[] results)
         {
             state = GamePad.GetState(PlayerIndex.One);
             int joyValX = (int)(state.ThumbSticks.Left.X * ushort.MaxValue);
             chgInputX.Input = joyValX;
 
             int v = ji.ComputeValue();
-            rcSender.Send(v.ToString() + "\n");
+
+            results[0] = (short)v;
 
             XAxisTextBox.Text = v.ToString();
         }

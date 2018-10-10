@@ -17,7 +17,7 @@ using System.Windows.Threading;
 using IniParser;
 using IniParser.Model;
 
-
+using FPVRemote.RCSender;
 
 using WPFMediaKit.DirectShow.Controls;
 
@@ -28,8 +28,14 @@ namespace FPVRemote
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int NUM_OF_CHANNELS = 4;
+
         private DispatcherTimer _inputCheckTimer;
         private VideoCaptureElement _frontView;
+
+        private short[] inputResults;
+
+        SerialRCSender rcSender;
 
         public MainWindow()
         {
@@ -43,10 +49,14 @@ namespace FPVRemote
         {
             // MessageBox.Show("Loaded");
 
+            inputResults = new short[NUM_OF_CHANNELS];
+
             var Parser = new FileIniDataParser();
             IniData data = Parser.ReadFile("config.ini");
 
+            rcSender = new SerialRCSender().InitFromConfig(data, "RC");
             initInputControls(data);
+
             StartNewInputCheckTimer();
 
             // Start the camera feeds
@@ -67,7 +77,8 @@ namespace FPVRemote
 
         private void InputCheckTimerOnTick(object sender, EventArgs eventArgs)
         {
-            loopInputControls();
+            loopInputControls(ref inputResults);
+            rcSender.Send(inputResults[0].ToString() + "\n");
         }
 
 
