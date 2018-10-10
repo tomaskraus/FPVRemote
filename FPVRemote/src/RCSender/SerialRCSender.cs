@@ -16,6 +16,12 @@ namespace FPVRemote.RCSender
         SerialPort port;
         int numOfChannels;
 
+        public int NumOfChannels
+        {
+            get { return numOfChannels;  }
+        }
+
+
         public SerialRCSender(int numOfChannels)
         {
             this.numOfChannels = numOfChannels;

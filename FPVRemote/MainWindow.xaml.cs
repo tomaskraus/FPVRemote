@@ -49,12 +49,13 @@ namespace FPVRemote
         {
             // MessageBox.Show("Loaded");
 
-            inputResults = new short[NUM_OF_CHANNELS];
+            
 
             var Parser = new FileIniDataParser();
             IniData data = Parser.ReadFile("config.ini");
 
-            rcSender = new SerialRCSender(1).InitFromConfig(data, "RC");
+            rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
+            inputResults = new short[rcSender.NumOfChannels];
             initInputControls(data);
 
             StartNewInputCheckTimer();
