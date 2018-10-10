@@ -17,7 +17,7 @@ using System.Windows.Threading;
 using IniParser;
 using IniParser.Model;
 
-using FPVRemote.Joyinput;
+using FPVRemote.valueChanger;
 using FPVRemote.RCSender;
 
 using WPFMediaKit.DirectShow.Controls;
@@ -34,7 +34,7 @@ namespace FPVRemote
         private VideoCaptureElement _frontView;
 
 
-        IJoyInput ji;
+        IValueChanger ji;
         SerialRCSender rcSender;
 
         public MainWindow()
@@ -52,8 +52,8 @@ namespace FPVRemote
             var Parser = new FileIniDataParser();
             IniData data = Parser.ReadFile("config.ini");
 
-            ji = new GamePadInput()
-                .Chain(new MapRangeInput(new RangeMapping
+            ji = new GamePadChanger()
+                .Chain(new MapRangeChanger(new RangeMapping
                 {
                     minFrom = -65535,
                     maxFrom = 65535,
