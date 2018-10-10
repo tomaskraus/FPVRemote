@@ -22,6 +22,9 @@ using FPVRemote.RCSender;
 
 using WPFMediaKit.DirectShow.Controls;
 
+// joystick
+using XInputDotNetPure;
+
 
 namespace FPVRemote
 {
@@ -35,7 +38,12 @@ namespace FPVRemote
 
 
         IValueChanger ji;
+        InputChanger chgInputX;
         SerialRCSender rcSender;
+
+        //joystick
+        private GamePadState state;
+
 
         public MainWindow()
         {
@@ -52,7 +60,8 @@ namespace FPVRemote
             var Parser = new FileIniDataParser();
             IniData data = Parser.ReadFile("config.ini");
 
-            ji = new GamePadChanger()
+            chgInputX = new InputChanger();
+            ji = chgInputX
                 .Chain(new MapRangeChanger(new RangeMapping
                 {
                     minFrom = -65535,
@@ -84,6 +93,10 @@ namespace FPVRemote
 
         private void InputCheckTimerOnTick(object sender, EventArgs eventArgs)
         {
+            state = GamePad.GetState(PlayerIndex.One);
+            int joyValX = (int)(state.ThumbSticks.Left.X * ushort.MaxValue);
+            chgInputX.Input = joyValX;
+
             int v = ji.ComputeValue();
             XAxisTextBox.Text = v.ToString();
 

@@ -72,7 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\valueChanger\AValueChanger.cs" />
-    <Compile Include="src\valueChanger\GamePadChanger.cs" />
+    <Compile Include="src\valueChanger\InputChanger.cs" />
     <Compile Include="src\valueChanger\IValueChanger.cs" />
     <Compile Include="src\valueChanger\MapRangeChanger.cs" />
     <Compile Include="src\RCSender\SerialRCSender.cs" />
