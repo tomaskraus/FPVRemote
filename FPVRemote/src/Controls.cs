@@ -27,7 +27,7 @@ namespace FPVRemote
         const int CH4 = 3;
 
         //joystick
-        private GamePadState state;
+        private GamePadState gPad1;
 
         IValueChanger chgSteer;
         InputChanger chgInputSteer;
@@ -56,8 +56,6 @@ namespace FPVRemote
                 maxTo = 255
             };
 
-
-
             chgInputSteer = new InputChanger();
             chgSteer = chgInputSteer
                 .Chain(new MapRangeChanger(gamepadRangeMapping))
@@ -74,9 +72,9 @@ namespace FPVRemote
 
         public void loopInputControls(ref short[] results)
         {
-            state = GamePad.GetState(PlayerIndex.One);
-            chgInputSteer.Input = (int)(state.ThumbSticks.Left.X * ushort.MaxValue);
-            chgInputThrottle.Input = (int)((state.Triggers.Right - state.Triggers.Left) * ushort.MaxValue);
+            gPad1 = GamePad.GetState(PlayerIndex.One);
+            chgInputSteer.Input = (int)(gPad1.ThumbSticks.Left.X * ushort.MaxValue);
+            chgInputThrottle.Input = (int)((gPad1.Triggers.Right - gPad1.Triggers.Left) * ushort.MaxValue);
 
             results[CH1] = (short)(chgSteer.ComputeValue());
             results[CH2] = (short)(chgThrottle.ComputeValue());
