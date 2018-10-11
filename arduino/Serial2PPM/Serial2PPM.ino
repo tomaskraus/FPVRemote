@@ -30,13 +30,16 @@
 volatile int ppm[CHANNEL_NUMBER];
 
 
-int chan = 1;
 
 const int MaxDigits = 3;
 char strValue[MaxDigits + 1];
 int index = 0;
 int x = 0;
 
+
+//serial
+byte valueState;
+int chan;
 
 void setup() {
 
@@ -49,8 +52,10 @@ void setup() {
     ppm[i] = CHANNEL_DEFAULT_VALUE;
   }
   // shut down a motor
-  ppm[2] = CHANNEL_MIN_VALUE;
-  
+  if(CHANNEL_NUMBER >= 3) {
+    ppm[2] = CHANNEL_MIN_VALUE;
+  }
+
   // ---- PPM generator --------------------------------------------------
   pinMode(sigPin, OUTPUT);
   digitalWrite(sigPin, !onState);  // set the PPM signal pin to the default state (off)
@@ -71,6 +76,8 @@ void setup() {
   // initialize serial:
   Serial.begin(9600);
 
+  valueState = 0;
+  
   //digitalWrite(LED_BUILTIN, LOW);
 
 }
@@ -121,16 +128,27 @@ void serialEvent()
 {
   while (Serial.available())
   {
-    char ch = Serial.read();
-    if (index < MaxDigits && isDigit(ch)) {
-      strValue[index++] = ch;
-    } else {
-      strValue[index] = 0;
-      x = atoi(strValue);
-      x = map(x, 0, 255, 1000, 2000);
-      //Serial.println(x);
-      ppm[chan] = x; 
-      index = 0;
+    char ch = Serial.read();        
+    if (ch == '*') {
+      chan = 0;
+      valueState = 1;       
+      continue;
+    }
+    if (valueState == 1) {  
+      if (index < MaxDigits && isDigit(ch)) {
+        strValue[index++] = ch;
+      } else {
+        strValue[index] = 0;
+        x = atoi(strValue);
+        x = map(x, 0, 255, 1000, 2000);
+        //Serial.println(x);
+        ppm[chan] = x; 
+        index = 0;
+        chan++;
+        if (chan >= CHANNEL_NUMBER) {
+          valueState = 0;
+        }
+      }
     }
   }
 }

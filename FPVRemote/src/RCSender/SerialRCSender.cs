@@ -14,9 +14,17 @@ namespace FPVRemote.RCSender
     public class SerialRCSender
     {
         SerialPort port;
+        int numOfChannels;
 
-        public SerialRCSender()
+        public int NumOfChannels
         {
+            get { return numOfChannels;  }
+        }
+
+
+        public SerialRCSender(int numOfChannels)
+        {
+            this.numOfChannels = numOfChannels;
         }
 
         public SerialRCSender InitFromConfig(IniData configData, string key)
@@ -29,6 +37,21 @@ namespace FPVRemote.RCSender
         public void Send(string value)
         {
             port.Write(value);
+        }
+
+        public void sendValues(short[] values)
+        {
+            StringBuilder res = new StringBuilder();
+            res.Append("*");
+            for (int i = 0; i < numOfChannels - 1; i++)
+            {
+                res.Append(values[i].ToString()).Append(" ");
+            }
+            //last one without a trailing space
+            res.Append(values[numOfChannels - 1].ToString())
+                .Append("\n");
+
+            Send(res.ToString());
         }
     }
 
