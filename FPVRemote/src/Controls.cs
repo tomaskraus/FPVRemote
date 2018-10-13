@@ -28,6 +28,8 @@ namespace FPVRemote
 
         bool armed;
 
+        short minSpeed;
+        short maxSpeed;
 
         const int CH1 = 0;
         const int CH2 = 1;
@@ -55,6 +57,10 @@ namespace FPVRemote
             }
 
             //------------------------------------------------
+
+            minSpeed = short.Parse(data["SPEED"]["min"]);
+            maxSpeed = short.Parse(data["SPEED"]["max"]);           
+
 
             centrR = new MyRect(518, 215, (int)(centr.Width), (int)(centr.Height));
             bordrR = new MyRect(236, 39, (int)(bordr.Width), (int)(bordr.Height));
@@ -140,6 +146,15 @@ namespace FPVRemote
                 {
                     armed = true;
                 }
+            }
+
+            if (results[CH2] < minSpeed)
+            {
+                results[CH2] = minSpeed;
+            }
+            if (results[CH2] > maxSpeed)
+            {
+                results[CH2] = maxSpeed;
             }
 
 
