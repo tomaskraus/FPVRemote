@@ -164,7 +164,7 @@ namespace FPVRemote
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
-            XAxisTextBox.Text = results[CH1].ToString() + ", " + results[CH2].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString();
+            XAxisTextBox.Text = results[CH1].ToString() + ", " + results[CH2].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n" + "[" + mX.ToString() + ", " + mY.ToString() + "]";
         }
     }
 }

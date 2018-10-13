@@ -8,7 +8,7 @@
         Title="FPVRemote" Height="700" Width="1200" WindowState="Maximized">
     <Canvas Name="Canvas">
         <Grid>
-            <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="64" Margin="40,39,0,-40" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>
+            <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="82" Margin="40,39,0,-58" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>
 
 
         </Grid>
