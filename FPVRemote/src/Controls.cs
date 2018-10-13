@@ -62,9 +62,9 @@ namespace FPVRemote
             maxSpeed = short.Parse(data["SPEED"]["max"]);           
 
 
-            centrR = new MyRect(518, 215, (int)(centr.Width), (int)(centr.Height));
-            bordrR = new MyRect(236, 39, (int)(bordr.Width), (int)(bordr.Height));
 
+            centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
+            bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
 
             armed = false;
 
@@ -164,7 +164,7 @@ namespace FPVRemote
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
-            XAxisTextBox.Text = results[CH1].ToString() + ", " + results[CH2].ToString() + "  : " + b1.ToString() + "  : " + b2.ToString() + "  :: " + armed.ToString();
+            XAxisTextBox.Text = results[CH1].ToString() + ", " + results[CH2].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString();
         }
     }
 }
