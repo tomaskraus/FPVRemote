@@ -8,6 +8,8 @@ using System.Windows;
 using IniParser;
 using IniParser.Model;
 
+
+using FPVRemote.myRect;
 using FPVRemote.valueChanger;
 
 
@@ -20,6 +22,14 @@ namespace FPVRemote
     public partial class MainWindow : Window
     {
         // VARS -----------------------------------------------------------------
+
+        MyRect centrR;
+        MyRect bordrR;
+
+        bool armed;
+
+        short minSpeed;
+        short maxSpeed;
 
         const int CH1 = 0;
         const int CH2 = 1;
@@ -47,6 +57,16 @@ namespace FPVRemote
             }
 
             //------------------------------------------------
+
+            minSpeed = short.Parse(data["SPEED"]["min"]);
+            maxSpeed = short.Parse(data["SPEED"]["max"]);           
+
+
+            centrR = new MyRect(518, 215, (int)(centr.Width), (int)(centr.Height));
+            bordrR = new MyRect(236, 39, (int)(bordr.Width), (int)(bordr.Height));
+
+
+            armed = false;
 
             gamepadRangeMapping = new RangeMapping
             {
@@ -80,7 +100,71 @@ namespace FPVRemote
             results[CH2] = (short)(chgThrottle.ComputeValue());
 
 
-            XAxisTextBox.Text = results[CH1].ToString();
+            Point mouseLocation = GetMousePosition();
+            int mX = (int)mouseLocation.X;
+            int mY = (int)mouseLocation.Y;
+
+            if (armed)
+            {
+                if (!bordrR.contains(mX, mY))
+                {
+                    results[CH1] = 127;
+                    results[CH2] = 127;
+                    armed = false;
+                }
+                else
+                if (!centrR.contains(mX, mY))
+                {
+                    // steer ----------------------------------
+                    if (true)
+                    {
+                        if (mX <= centrR.x)
+                        {
+                            results[CH1] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x)));
+                        }
+                        else if (mX > centrR.xMax) 
+                        {
+                            results[CH1] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x)));
+                        }
+                    }
+                    // gas ------------------------------------
+                    if (true)
+                    {
+                        if (mY <= centrR.y)
+                        {
+                            results[CH2] = (short)(127 + (centrR.y - mY) * (127.0 / (centrR.y - bordrR.y)));
+                        }
+                        else if (mY > centrR.yMax)
+                        {
+                            results[CH2] = (short)(127 - (mY - centrR.yMax) * (127.0 / (centrR.y - bordrR.y)));
+                        }
+                    }
+                }
+            } else
+            {
+                if (centrR.contains(mX, mY))
+                {
+                    armed = true;
+                }
+            }
+
+            if (results[CH2] < minSpeed)
+            {
+                results[CH2] = minSpeed;
+            }
+            if (results[CH2] > maxSpeed)
+            {
+                results[CH2] = maxSpeed;
+            }
+
+
+
+            bool b1 = centrR.contains(mX, mY);
+            bool b2 = bordrR.contains(mX, mY);
+
+
+            //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
+            XAxisTextBox.Text = results[CH1].ToString() + ", " + results[CH2].ToString() + "  : " + b1.ToString() + "  : " + b2.ToString() + "  :: " + armed.ToString();
         }
     }
 }
