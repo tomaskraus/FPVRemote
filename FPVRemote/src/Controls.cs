@@ -93,8 +93,8 @@ namespace FPVRemote
         public void loopInputControls(ref short[] results)
         {
             gPad1 = GamePad.GetState(PlayerIndex.One);
-            chgInputSteer.Input = (int)(gPad1.ThumbSticks.Left.X * ushort.MaxValue);
-            chgInputThrottle.Input = (int)((gPad1.Triggers.Right - gPad1.Triggers.Left) * ushort.MaxValue);
+            chgInputSteer.Input = (int)(gPad1.ThumbSticks.Right.X * ushort.MaxValue);
+            chgInputThrottle.Input = (int)(gPad1.ThumbSticks.Left.Y * ushort.MaxValue);
 
             results[CHsteer] = (short)(chgSteer.ComputeValue());
             results[CHthrottle] = (short)(chgThrottle.ComputeValue());
