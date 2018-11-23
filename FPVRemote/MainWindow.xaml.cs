@@ -49,19 +49,26 @@ namespace FPVRemote
         {
             // MessageBox.Show("Loaded");
 
-            
+            try
+            {
 
-            var Parser = new FileIniDataParser();
-            IniData data = Parser.ReadFile("config.ini");
+                var Parser = new FileIniDataParser();
+                IniData data = Parser.ReadFile("config.ini");
 
-            rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
-            inputResults = new short[rcSender.NumOfChannels];
-            initInputControls(data, ref inputResults);
+                rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
+                inputResults = new short[rcSender.NumOfChannels];
+                initInputControls(data, ref inputResults);
 
-            StartNewInputCheckTimer();
+                StartNewInputCheckTimer();
 
-            // Start the camera feeds
-            StartAllCameras(data, "FPV");
+                // Start the camera feeds
+                StartAllCameras(data, "FPV");
+
+            } catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Application.Current.Shutdown();
+            }
         }
 
         private void StartNewInputCheckTimer()
