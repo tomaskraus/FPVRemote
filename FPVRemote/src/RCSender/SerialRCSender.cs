@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO.Ports;
 
 using IniParser.Model;
-
+using System.Diagnostics;
 
 namespace FPVRemote.RCSender
 {
@@ -33,10 +33,32 @@ namespace FPVRemote.RCSender
             enabled = bool.Parse(configData[key]["enabled"]);
             if (enabled)
             {
-                port = new SerialPort(configData[key]["port"], 9600, Parity.None, 8, StopBits.One);
+                string portName = ResolvePortName(configData[key]["port"]);
+                if (portName == null)
+                {
+                    throw new Exception("RC sender device is not attached. \n\n(Reason: No COM port detected.)");
+                };
+                port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
                 port.Open();
             }
             return this;
+        }
+
+        private string ResolvePortName(string portName)
+        {
+            string resultPortName = portName;
+            if ("auto".Equals(portName))
+            {
+                Debug.WriteLine("Auto port detect start: ");
+                resultPortName = null;
+                if (SerialPort.GetPortNames().Length > 0)
+                {
+                    resultPortName = SerialPort.GetPortNames()[0];
+                }
+                Debug.WriteLine("Auto port detect resolved name: " + resultPortName);
+            }
+
+            return resultPortName;
         }
 
         public void Send(string value)
