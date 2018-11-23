@@ -68,6 +68,7 @@ namespace FPVRemote
 
             armed = false;
 
+            // TODO make configurable. Reason: poor quality of cheap gamepads
             gamepadRangeMapping = new RangeMapping
             {
                 minFrom = -65535,
@@ -164,7 +165,7 @@ namespace FPVRemote
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
-            XAxisTextBox.Text = results[CHsteer].ToString() + ", " + results[CHthrottle].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n" + "[" + mX.ToString() + ", " + mY.ToString() + "]";
+            XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n" + "[" + mX.ToString() + ", " + mY.ToString() + "]";
         }
     }
 }
