@@ -36,7 +36,7 @@ namespace FPVRemote.RCSender
                 string portName = ResolvePortName(configData[key]["port"]);
                 if (portName == null)
                 {
-                    throw new Exception("RC sender device is not attached. \n\n(Reason: No COM port detected.)");
+                    throw new Exception("RC sender device is not attached (reason: No COM port detected).");
                 };
                 port = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
                 port.Open();
