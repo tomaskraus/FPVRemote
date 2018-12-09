@@ -51,7 +51,7 @@ Funkční celek přidaný k autu, zajišťuje funkci FPV.
   - držák krytky kamery (4.3)
     - opatření proti ztrátě krytky kamery
   - deformační prvek (4.4)
-    - část z překližky. Při kolizi FPV stojanu s překážkou se překližka zlomí a ochrání tak podvozkovou skupinu, ke keré je stojan připevněn, od požkození.
+    - vyměnitelný díl z překližky, přišroubovaný k FPV stojanu. Při kolizi FPV stojanu s překážkou se stojan zlomí v místě překližky a ochrání tak podvozkovou skupinu, ke keré je připevněn, od poškození.
   - FPV vysílač (4.5)
     - přišroubovaná FPV anténa (4.6) 
     - napájecí konektor FPV vysílače (4.7)
