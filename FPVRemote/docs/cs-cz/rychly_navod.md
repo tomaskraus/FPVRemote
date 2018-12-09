@@ -81,12 +81,15 @@ Po několika minutách nečinnosti začne zapnutá vysílačka pípat. Stisknět
 
 ### Enkodér (6)
 Převádí komunikaci z usb portu PC do formátu srozumitelného vysílačce. Připojuje se k PC.
-- usb kabel k PC (kabel mini usb)
-- kabel k vysílačce (kabel jack-PS2)
+- usb kabel k PC (6.1)
+  - kabel mini usb
+- kabel k vysílačce (6.2)
+  - kabel jack-PS2
 ### FPV přijímač (7)
 - přijímá obrazový signál z auta do PC. Připojuje se k PC. 
   - zapojte k PC jen po dobu používání, poměrně hodně se zahřívá
-- usb kabel k PC (kabel mikro usb)
+- usb kabel k PC (7.1)
+  - kabel mikro usb
 ### gamepad (8)
 PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC.
 - není nutný k provozu
