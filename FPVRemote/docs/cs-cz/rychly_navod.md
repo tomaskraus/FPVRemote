@@ -54,7 +54,7 @@
 
 ### RC Auto (3)
 RC auto, upravené pro přenos obrazu FPV (First Person View)
-- konektor pro pohonnou baterii (3.1)
+- silový konektor pro pohonnou baterii (3.1)
 - RC přijímač (3.2)
   - přijímá signál z vysílačky a ovládá auto (rychlost, zatáčení atd.)
 - regulátor (3.3)
@@ -70,7 +70,7 @@ Funkční celek přidaný k autu, zajišťuje funkci FPV.
     - na přenášeném obrazu zobrazuje čas od zapnutí kamery a aktuální napájecí napětí
     - při nízkém napětí indikátor napětí bliká
       - skončete jízdu a co nejdříve nabijte FPV baterii, abyste předešli poškození FPV baterie
-    - krytka objektivu (4.2)
+    - krytka objektivu kamery (4.2)
   - držák krytky kamery (4.3)
     - opatření proti ztrátě krytky kamery
   - deformační prvek (4.4)
@@ -120,6 +120,7 @@ Převádí komunikaci z usb portu PC do formátu srozumitelného vysílačce. P�
   - zapojte k PC jen po dobu používání, poměrně hodně se zahřívá
 - usb kabel k PC (7.1)
   - kabel mikro usb
+- antény (7.2)
 ### gamepad (8)
 PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC.
 - není nutný k provozu
