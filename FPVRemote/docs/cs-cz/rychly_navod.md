@@ -76,6 +76,11 @@ Funkční celek přidaný k autu, zajišťuje funkci FPV.
     - napájecí konektor FPV vysílače (4.7)
       - připojte k FPV baterii jen po dobu provozu, vysílač se silně zahřívá!
       - nezapíntejte FPV vysílač bez antény, dojde k přehřátí a zničení FPV vysílače
+  - nouzový silový konektor (4.8)
+    - napájení z pohonné baterie auta, připojit k napájecímu konektoru FPV (4.7)
+    - použijte, když není k dispozici FPV baterie
+    - při velké zátěži pohonné baterie (např. prudká akcelerace) nestačí napájet FPV a objeví se výpadky obrazu
+
 
 ### Vysílačka (5)
 Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se připojí k PC a pak se dá vysílačka z PC ovládat.
