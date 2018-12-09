@@ -2,7 +2,7 @@
 
 ## Seznam zařízení
 
-### Pohonná baterie
+### Pohonná baterie (1)
 - NiMh
   - vysoké samovybíjení
     - nabíjet max. den před použitím pro optimální výsledky
@@ -13,7 +13,10 @@
   - při použití baterie venku v teplotách kolem bodu mrazu je dobré baterii zahřát (na 30°C a více)
   - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
 
-### FPV baterie
+### FPV baterie (2)
+- silový konektor (2.1)
+- servisní/balanční konektor (2.2)
+  - vývody jednotlivých článků baterie 
 - LiPol technologie, 2 články x 3.7V
 - nízké samovybíjení
   - nabitá vydrží měsíce, ale doporučuje se baterii vybít na udržovací napětí, bude-li pár týdnů nepoužívaná
@@ -30,44 +33,60 @@
 - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
 
 
-### RC Auto
+### RC Auto (3)
 RC auto, upravené pro přenos obrazu FPV (First Person View)
-- konektor pro pohonnou baterii
-- FPV stojan
-  - FPV kamera
-    - krytka objektivu
-  - držák krytky kamery (opatření proti ztrátě krytky kamery)
-  - RC přijímač
-    - přijímá signál z vysílačky a ovládá auto (rychlost, zatáčení atd.)
-  - FPV vysílač
-    - přišroubovaná FPV anténa  
-    - napájecí konektor FPV vysílače
+- konektor pro pohonnou baterii (3.1)
+- RC přijímač (3.2)
+  - přijímá signál z vysílačky a ovládá auto (rychlost, zatáčení atd.)
+- regulátor (3.3)
+- motor (3.4)
+- servo řízení (3.5)
+- dok pro FPV baterii (3.6)
+  - chrání před nárazy a izoluje
+
+### FPV stojan (4)
+Funkční celek přidaný k autu, zajišťuje funkci FPV.
+  - FPV kamera (4.1)
+    - krytka objektivu (4.2)
+  - držák krytky kamery (4.3)
+    - opatření proti ztrátě krytky kamery
+  - deformační prvek (4.4)
+    - část z překližky. Při kolizi FPV stojanu s překážkou se překližka zlomí a ochrání tak podvozkovou skupinu, ke keré je stojan připevněn, od požkození.
+  - FPV vysílač (4.5)
+    - přišroubovaná FPV anténa (4.6) 
+    - napájecí konektor FPV vysílače (4.7)
       - připojte k FPV baterii jen po dobu provozu, vysílač se silně zahřívá!
       - nezapíntejte FPV vysílač bez antény, dojde k přehřátí a zničení FPV vysílače
-### Vysílačka
+
+### Vysílačka (5)
 Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se připojí k PC a pak se dá vysílačka z PC ovládat.
-- vypínač
-- přepínače
-- páky ovládání
-- tlačítka menu
-  - up, down
-  - ok, cancel: (je rozeznáván krátký a dlouhý stisk)
+- vypínač (5.1)
+- přepínače (5.2.1 - 5.2.4)
+- páky ovládání (5.3)
+  - levá (5.3.1)
+  - pravá (5.3.2)
+- tlačítka menu (5.5)
+  - up (5.5.1), down (5.5.2)
+  - ok (5.5.3), cancel (5.5.4)
+    - je rozeznáván krátký a dlouhý stisk
 - ostatní ovládací prvky
-  - potenciometry (nepoužito pro FPV Auto)
-  - trimry
-    - trimr pro nastavení středové polohy zatáčení
-- trainer port (konektor): na zadní straně
+  - potenciometry (5.6.1, 5.6.2)
+    - nepoužito pro FPV Auto
+  - trimry (5.7.1 - 5.7.4)
+    - trimr pro nastavení středové polohy zatáčení (5.7.4)
+- trainer port (5.8)
+  - konektor na zadní straně vysílačky
 
 Po několika minutách nečinnosti začne zapnutá vysílačka pípat. Stiskněte tlačítko "cancel" na vysílačce, vysílačka pípat přestane.
 
-### Enkodér
+### Enkodér (6)
 Převádí komunikaci z usb portu PC do formátu srozumitelného vysílačce. Připojuje se k PC.
 - usb kabel k PC (kabel mini usb)
 - kabel k vysílačce (kabel jack-PS2)
-### FPV přijímač
+### FPV přijímač (7)
 - přijímá obrazový signál z auta do PC. Připojuje se k PC. 
   - zapojte k PC jen po dobu používání, poměrně hodně se zahřívá
 - usb kabel k PC (kabel mikro usb)
-### gamepad
+### gamepad (8)
 PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC.
 - není nutný k provozu
