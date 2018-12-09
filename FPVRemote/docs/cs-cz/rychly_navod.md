@@ -2,7 +2,7 @@
 
 ## Seznam zařízení
 
-### Pohonná baterie (1)
+### Pohonná baterie (1.1)
 - NiMh
   - vysoké samovybíjení
     - nabíjet max. den před použitím pro optimální výsledky
@@ -11,13 +11,27 @@
   - ! Při náročném použití (ostrá jízda) se může silně zahřívat (okolo 100°C)
   - před nabíjením nechte baterii vychladnout na pokojovou teplotu
   - při použití baterie venku v teplotách kolem bodu mrazu je dobré baterii zahřát (na 30°C a více)
+  - konektor baterie (1.1.1)
+    - konektor má na sobě západku. Tu je nutné stisknout při odpojování baterie.
   - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
 
-### FPV baterie (2)
-- silový konektor (2.1)
-- servisní/balanční konektor (2.2)
+### základní nabíječka NiMh baterií (1.2)
+- pomalé nabíjení
+- doba nabití 1800mAh baterie: cca. 6h
+- nutno vypnout ze sítě po přesné době nabíjení, jinak hrozí přebití
+
+### rychlá nabíječka NiMh baterií (1.3)
+- Vysoký nabíjecí proud: 3A
+  - nepoužívat pro baterie kapacity menší než 3000mAh, jinak hrozí rychlé zničení baterie
+- doba nabíjení 3300mAh: cca. 1h
+- automatické ukončení nabíjení, až je baterie nabitá
+- nabito je, když svítí zelená dioda
+
+### FPV baterie (2.1)
+- silový konektor (2.1.1)
+- servisní/balanční konektor (2.1.2)
   - vývody jednotlivých článků baterie 
-- LiPol technologie, 2 články x 3.7V
+- LiPol technologie, 2 články x 3.7V, 850mAh
 - nízké samovybíjení
   - nabitá vydrží měsíce, ale doporučuje se baterii vybít na udržovací napětí, bude-li pár týdnů nepoužívaná
 - ! Potenciálně nebezpečná!
@@ -31,6 +45,11 @@
 - před nabíjením nechte baterii vychladnout na pokojovou teplotu
 - při použití baterie venku v teplotách kolem bodu mrazu je dobré baterii zahřát (na 30°C a více)
 - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
+
+### nabíječka FPV baterie (2.2)
+- nabíječka LiPol baterií, s balancerem a odděleným síťovým adaptérem
+- doba nabíjení 800mAh baterie: cca. 1h
+- nabito je, když přestane svítit červená dioda
 
 
 ### RC Auto (3)
@@ -76,6 +95,8 @@ Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se přip
     - trimr pro nastavení středové polohy zatáčení (5.7.4)
 - trainer port (5.8)
   - konektor na zadní straně vysílačky
+- šachta pro baterie
+  - 4xAA, možné použít i nabíjecí (NiCd, NiMh)
 
 Po několika minutách nečinnosti začne zapnutá vysílačka pípat. Stiskněte tlačítko "cancel" na vysílačce, vysílačka pípat přestane.
 
