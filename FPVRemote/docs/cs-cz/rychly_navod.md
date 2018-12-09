@@ -66,6 +66,10 @@ RC auto, upravené pro přenos obrazu FPV (First Person View)
 ### FPV stojan (4)
 Funkční celek přidaný k autu, zajišťuje funkci FPV.
   - FPV kamera (4.1)
+    - funguje i za nízkého osvětlení: přepne se na černobílý obraz
+    - na přenášeném obrazu zobrazuje čas od zapnutí kamery a aktuální napájecí napětí
+    - při nízkém napětí indikátor napětí bliká
+      - skončete jízdu a co nejdříve nabijte FPV baterii, abyste předešli poškození FPV baterie
     - krytka objektivu (4.2)
   - držák krytky kamery (4.3)
     - opatření proti ztrátě krytky kamery
