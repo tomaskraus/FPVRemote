@@ -3,6 +3,7 @@
 ## Seznam zařízení
 
 ### Pohonná baterie (1.1)
+- 2 kusy, kapacita 1800mAh a 3300mAh
 - NiMh
   - vysoké samovybíjení
     - nabíjet max. den před použitím pro optimální výsledky
@@ -17,19 +18,21 @@
 
 ### základní nabíječka NiMh baterií (1.2)
 - pomalé nabíjení
-- doba nabití 1800mAh baterie: cca. 6h
+- doba nabití pro 1800mAh baterii: cca. 6h
 - nutno vypnout ze sítě po přesné době nabíjení, jinak hrozí přebití
 
 ### rychlá nabíječka NiMh baterií (1.3)
 - Vysoký nabíjecí proud: 3A
   - nepoužívat pro baterie kapacity menší než 3000mAh, jinak hrozí rychlé zničení baterie
-- doba nabíjení 3300mAh: cca. 1h
+- doba nabíjení pro baterii 3300mAh: cca. 1h
 - automatické ukončení nabíjení, až je baterie nabitá
 - nabito je, když svítí zelená dioda
 
 ### FPV baterie (2.1)
 - silový konektor (2.1.1)
+  - zapojuje se do auta
 - servisní/balanční konektor (2.1.2)
+  - zapojuje se do nabíječky
   - vývody jednotlivých článků baterie 
 - LiPol technologie, 2 články x 3.7V, 850mAh
 - nízké samovybíjení
@@ -83,17 +86,17 @@ Funkční celek přidaný k autu, zajišťuje funkci FPV.
   - nouzový silový konektor (4.8)
     - napájení z pohonné baterie auta, připojit k napájecímu konektoru FPV (4.7)
     - použijte, když není k dispozici FPV baterie
-    - při velké zátěži pohonné baterie (např. prudká akcelerace) nestačí napájet FPV a objeví se výpadky obrazu
+    - při velké zátěži pohonné baterie (např. prudká akcelerace) nestačí tato napájet FPV a objeví se výpadky obrazu
 
 
 ### Vysílačka (5)
 Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se připojí k PC a pak se dá vysílačka z PC ovládat.
 - vypínač (5.1)
 - přepínače (5.2.1 - 5.2.4)
-- páky ovládání (5.3)
+- páky ovládání
   - levá (5.3.1)
   - pravá (5.3.2)
-- tlačítka menu (5.5)
+- tlačítka menu
   - up (5.5.1), down (5.5.2)
   - ok (5.5.3), cancel (5.5.4)
     - je rozeznáván krátký a dlouhý stisk
@@ -104,7 +107,7 @@ Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se přip
     - trimr pro nastavení středové polohy zatáčení (5.7.4)
 - trainer port (5.8)
   - konektor na zadní straně vysílačky
-- šachta pro baterie
+- šachta pro baterie (5.9)
   - 4xAA, možné použít i nabíjecí (NiCd, NiMh)
 
 Po několika minutách nečinnosti začne zapnutá vysílačka pípat. Stiskněte tlačítko "cancel" na vysílačce, vysílačka pípat přestane.
@@ -115,12 +118,21 @@ Převádí komunikaci z usb portu PC do formátu srozumitelného vysílačce. P�
   - kabel mini usb
 - kabel k vysílačce (6.2)
   - kabel jack-PS2
+- konektor pro připojení k PC (6.3)
+- konektor pro připojení k vysílačce (6.4)
 ### FPV přijímač (7)
 - přijímá obrazový signál z auta do PC. Připojuje se k PC. 
   - zapojte k PC jen po dobu používání, poměrně hodně se zahřívá
 - usb kabel k PC (7.1)
   - kabel mikro usb
-- antény (7.2)
+- antény pro příjem (7.2)
+  - přijímač si vybírá ten lepší signál z jedné nebo druhé antény
+- tlačítka ladění (7.3, 7.4)
+  - jako u televize, každé tlačítko pro jednu anténu
 ### gamepad (8)
-PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC.
-- není nutný k provozu
+PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC. Není nutný k provozu.
+- levá analogová páčka (8.1)
+    - ovládání plynu
+- pravá analogová páčka (8.2)
+    - zatáčení
+
