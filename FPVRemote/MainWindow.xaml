@@ -13,8 +13,8 @@
 
         </Grid>
         <Canvas Name="CameraCanvas" Width="{Binding ActualWidth, ElementName=Canvas}" Height="{Binding ActualHeight, ElementName=Canvas}" Panel.ZIndex="11" >
-            <Rectangle x:Name="centr" Height="258" Canvas.Left="518" Stroke="LightGray" Canvas.Top="215" Width="323" Panel.ZIndex="10"/>
-            <Rectangle x:Name="bordr" Height="608" Canvas.Left="236" Stroke="Lime" Canvas.Top="39" Width="890" Panel.ZIndex="15"/>
+            <Rectangle x:Name="centr" Height="258" Canvas.Left="575" Stroke="White" Canvas.Top="300" Width="323" Panel.ZIndex="10"/>
+            <Rectangle x:Name="bordr" Height="708" Canvas.Left="236" Stroke="Lime" Canvas.Top="39" Width="1050" Panel.ZIndex="15"/>
         </Canvas>
     </Canvas>
 </Window>

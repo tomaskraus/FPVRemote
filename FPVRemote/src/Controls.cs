@@ -33,6 +33,9 @@ namespace FPVRemote
         short minSpeed;
         short maxSpeed;
 
+        int deadZoneX;
+        int deadZoneY;
+
         const int CHsteer = 3;
         const int CHthrottle = 1;
         const int CHaux1 = 2;
@@ -67,6 +70,9 @@ namespace FPVRemote
 
             centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
+
+            deadZoneX = int.Parse(data["DEADZONE"]["x"]);
+            deadZoneY = int.Parse(data["DEADZONE"]["y"]);
 
             armed = false;
 
@@ -122,22 +128,22 @@ namespace FPVRemote
                     
                         if (mX <= centrR.x)
                         {
-                            results[CHsteer] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x)));
+                            results[CHsteer] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
                         }
                         else if (mX > centrR.xMax) 
                         {
-                            results[CHsteer] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x)));
+                            results[CHsteer] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
                         }
 
                     // gas ------------------------------------
 
                         if (mY <= centrR.y)
                         {
-                            results[CHthrottle] = (short)(127 + ((centrR.y - mY) * ((double)(maxSpeed - 127) / (centrR.y - bordrR.y))));
+                            results[CHthrottle] = (short)(127 + ((centrR.y - mY) * ((double)(maxSpeed - 127) / (centrR.y - bordrR.y - deadZoneY))));
                         }
                         else if (mY > centrR.yMax)
                         {
-                            results[CHthrottle] = (short)(127 - ((mY - centrR.yMax) * ((double)(127 - minSpeed) / (bordrR.h - centrR.h - (centrR.y - bordrR.y)))));
+                            results[CHthrottle] = (short)(127 - ((mY - centrR.yMax) * ((double)(127 - minSpeed) / (bordrR.h - centrR.h - (centrR.y - bordrR.y - deadZoneY)))));
                         }
                     
                 }
@@ -158,6 +164,14 @@ namespace FPVRemote
                 results[CHthrottle] = maxSpeed;
             }
 
+            if (results[CHsteer] < 0)
+            {
+                results[CHsteer] = 0;
+            }
+            if (results[CHsteer] > 255)
+            {
+                results[CHsteer] = 255;
+            }
 
 
             bool b1 = centrR.contains(mX, mY);
