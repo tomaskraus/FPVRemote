@@ -61,13 +61,12 @@ namespace FPVRemote
             //------------------------------------------------
 
             minSpeed = short.Parse(data["SPEED"]["min"]);
-            maxSpeed = short.Parse(data["SPEED"]["max"]);           
+            maxSpeed = short.Parse(data["SPEED"]["max"]);
 
-
+            yOffset = short.Parse(data["OFFSET"]["y"]);
 
             centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
-            yOffset = 24;
 
             armed = false;
 
@@ -169,7 +168,7 @@ namespace FPVRemote
             XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y
                 + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString()
                 + "\n  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n"
-                + "[" + mX.ToString() + ", " + mY.ToString() + "]" 
+                + "[" + mX.ToString() + ", " + mY.ToString() + "]"; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();
         }
