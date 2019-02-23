@@ -26,6 +26,8 @@ namespace FPVRemote
         MyRect centrR;
         MyRect bordrR;
 
+        public int yOffset;
+
         bool armed;
 
         short minSpeed;
@@ -65,6 +67,7 @@ namespace FPVRemote
 
             centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
+            yOffset = 24;
 
             armed = false;
 
@@ -103,7 +106,7 @@ namespace FPVRemote
 
             Point mouseLocation = GetMousePosition();
             int mX = (int)mouseLocation.X;
-            int mY = (int)mouseLocation.Y;
+            int mY = (int)mouseLocation.Y - yOffset;
 
             if (armed)
             {
@@ -117,8 +120,7 @@ namespace FPVRemote
                 if (!centrR.contains(mX, mY))
                 {
                     // steer ----------------------------------
-                    if (true)
-                    {
+                    
                         if (mX <= centrR.x)
                         {
                             results[CHsteer] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x)));
@@ -127,19 +129,18 @@ namespace FPVRemote
                         {
                             results[CHsteer] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x)));
                         }
-                    }
+
                     // gas ------------------------------------
-                    if (true)
-                    {
+
                         if (mY <= centrR.y)
                         {
-                            results[CHthrottle] = (short)(127 + (centrR.y - mY) * (127.0 / (centrR.y - bordrR.y)));
+                            results[CHthrottle] = (short)(127 + ((centrR.y - mY) * ((double)(maxSpeed - 127) / (centrR.y - bordrR.y))));
                         }
                         else if (mY > centrR.yMax)
                         {
-                            results[CHthrottle] = (short)(127 - (mY - centrR.yMax) * (127.0 / (centrR.y - bordrR.y)));
+                            results[CHthrottle] = (short)(127 - ((mY - centrR.yMax) * ((double)(127 - minSpeed) / (bordrR.h - centrR.h - (centrR.y - bordrR.y)))));
                         }
-                    }
+                    
                 }
             } else
             {
@@ -165,7 +166,12 @@ namespace FPVRemote
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
-            XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString() + "  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n" + "[" + mX.ToString() + ", " + mY.ToString() + "]";
+            XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y
+                + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString()
+                + "\n  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n"
+                + "[" + mX.ToString() + ", " + mY.ToString() + "]" 
+                // + "\ncentrX=" + centrR.x;
+                // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();
         }
     }
 }

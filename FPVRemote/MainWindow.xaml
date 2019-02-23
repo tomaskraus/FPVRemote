@@ -8,12 +8,12 @@
         Title="FPVRemote" Height="700" Width="1200" WindowState="Maximized">
     <Canvas Name="Canvas">
         <Grid>
-            <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="82" Margin="40,39,0,-58" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" TextChanged="XAxisTextBox_TextChanged_1"/>
+            <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="148" Margin="40,39,-20,-124" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" TextChanged="XAxisTextBox_TextChanged_1"/>
 
 
         </Grid>
         <Canvas Name="CameraCanvas" Width="{Binding ActualWidth, ElementName=Canvas}" Height="{Binding ActualHeight, ElementName=Canvas}" Panel.ZIndex="11" >
-            <Rectangle x:Name="centr" Height="258" Canvas.Left="518" Stroke="White" Canvas.Top="215" Width="323" Panel.ZIndex="10"/>
+            <Rectangle x:Name="centr" Height="258" Canvas.Left="518" Stroke="LightGray" Canvas.Top="215" Width="323" Panel.ZIndex="10"/>
             <Rectangle x:Name="bordr" Height="608" Canvas.Left="236" Stroke="Lime" Canvas.Top="39" Width="890" Panel.ZIndex="15"/>
         </Canvas>
     </Canvas>

@@ -39,9 +39,11 @@ namespace FPVRemote
 
         public MainWindow()
         {
-            InitializeComponent();
+            
 
             Loaded += MainWindow_Loaded;
+
+            InitializeComponent();
         }
 
 
@@ -58,6 +60,16 @@ namespace FPVRemote
                 rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
                 inputResults = new short[rcSender.NumOfChannels];
                 initInputControls(data, ref inputResults);
+
+                centr.Width = centrR.w;
+                centr.Height = centrR.h;
+                Canvas.SetLeft(centr, this.centrR.x);
+                Canvas.SetTop(centr, this.centrR.y);
+
+                bordr.Width = bordrR.w;
+                bordr.Height = bordrR.h;
+                Canvas.SetLeft(bordr, this.bordrR.x);
+                Canvas.SetTop(bordr, this.bordrR.y);
 
                 StartNewInputCheckTimer();
 
