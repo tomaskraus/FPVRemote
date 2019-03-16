@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FPVRemote"
         mc:Ignorable="d"
         Title="FPVRemote" Height="700" Width="1200" WindowState="Maximized">
-    <Canvas Name="Canvas">
+    <Canvas Name="Canvas" Background="Gray">
         <Grid>
             <TextBox x:Name="XAxisTextBox" HorizontalAlignment="Left" Height="148" Margin="40,39,-20,-124" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" TextChanged="XAxisTextBox_TextChanged_1"/>
 
