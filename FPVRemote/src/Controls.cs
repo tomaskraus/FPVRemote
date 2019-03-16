@@ -68,7 +68,7 @@ namespace FPVRemote
 
             yOffset = short.Parse(data["OFFSET"]["y"]);
 
-            centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
+            centrR = new MyRect(0, 0, int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
 
             deadZoneX = int.Parse(data["DEADZONE"]["x"]);
@@ -110,11 +110,17 @@ namespace FPVRemote
 
 
             Point mouseLocation = GetMousePosition();
-            //Point mouseLocationP = System.Windows.Input.Mouse.GetPosition(CameraCanvas);
             Point mouseLocationBordr = bordr.PointFromScreen(mouseLocation);
             Point mouseLocationCentr = centr.PointFromScreen(mouseLocation);
-            int mX = (int)mouseLocation.X;
-            int mY = (int)mouseLocation.Y - yOffset;
+
+            int mX = (int)mouseLocationBordr.X;
+            int mY = (int)mouseLocationBordr.Y;
+
+            //assume the center is really centered
+            int centrMarginX = (int)((bordr.Width - centr.Width) / 2);
+            int centrMarginY = (int)((bordr.Height - centr.Height) / 2);
+            int centrMarginXEnd = (int)(centrMarginX + centr.Width);
+            int centrMarginYEnd = (int)(centrMarginY + centr.Height);
 
             bool inBordr = bordr.RenderedGeometry.FillContains(mouseLocationBordr);
             bool inCentr = centr.RenderedGeometry.FillContains(mouseLocationCentr);
@@ -129,28 +135,28 @@ namespace FPVRemote
                     armed = false;
                 }
                 else
-                if (inCentr)
+                if (!inCentr)
                 {
                     // steer ----------------------------------
                     
-                        if (mX <= centrR.x)
+                        if (mX <= centrMarginX)
                         {
-                            results[CHsteer] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
+                            results[CHsteer] = (short)(127 - (centrMarginX - mX) * (127.0 / centrMarginX));
                         }
-                        else if (mX > centrR.xMax) 
+                        else if (mX > centrMarginXEnd) 
                         {
-                            results[CHsteer] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
+                            results[CHsteer] = (short)(127 + (mX - centrMarginXEnd) * (127.0 / centrMarginX));
                         }
 
                     // gas ------------------------------------
 
-                        if (mY <= centrR.y)
+                        if (mY <= centrMarginY)
                         {
-                            results[CHthrottle] = (short)(127 + ((centrR.y - mY) * ((double)(maxSpeed - 127) / (centrR.y - bordrR.y - deadZoneY))));
+                            results[CHthrottle] = (short)(127 + ((centrMarginY - mY) * ((double)(maxSpeed - 127) / (centrMarginY))));
                         }
-                        else if (mY > centrR.yMax)
+                        else if (mY > centrMarginYEnd)
                         {
-                            results[CHthrottle] = (short)(127 - ((mY - centrR.yMax) * ((double)(127 - minSpeed) / (bordrR.h - centrR.h - (centrR.y - bordrR.y - deadZoneY)))));
+                            results[CHthrottle] = (short)(127 - ((mY - centrMarginYEnd) * ((double)(127 - minSpeed) / (centrMarginX))));
                         }
                     
                 }
@@ -161,6 +167,8 @@ namespace FPVRemote
                     armed = true;
                 }
             }
+
+            // ----- hard limits -------------------
 
             if (results[CHthrottle] < minSpeed)
             {
@@ -180,13 +188,13 @@ namespace FPVRemote
                 results[CHsteer] = 255;
             }
 
+            // -------------------------------------
 
-            
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
             XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y
-                + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString()
+                + "\nst: " + results[CHsteer].ToString() + ", th: " + results[CHthrottle].ToString()
                 + "\nc: " + inCentr.ToString() + "  : b: " + inBordr.ToString() + "\narmed: " + armed.ToString() + "\n"
                 + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
                 + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"

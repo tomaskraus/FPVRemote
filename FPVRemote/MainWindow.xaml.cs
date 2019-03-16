@@ -37,9 +37,6 @@ namespace FPVRemote
 
         SerialRCSender rcSender;
 
-        int xgOffset;
-        int ygOffset;
-
         public MainWindow()
         {
             
@@ -62,20 +59,18 @@ namespace FPVRemote
 
                 rcSender = new SerialRCSender(NUM_OF_CHANNELS).InitFromConfig(data, "RC");
                 inputResults = new short[rcSender.NumOfChannels];
-                initInputControls(data, ref inputResults);
-
-                xgOffset = short.Parse(data["OFFSET"]["xg"]);
-                ygOffset = short.Parse(data["OFFSET"]["yg"]);
-
-                centr.Width = centrR.w;
-                centr.Height = centrR.h;
-                Canvas.SetLeft(centr, this.centrR.x + xgOffset);
-                Canvas.SetTop(centr, this.centrR.y + ygOffset);
+                initInputControls(data, ref inputResults);                              
 
                 bordr.Width = bordrR.w;
                 bordr.Height = bordrR.h;
-                Canvas.SetLeft(bordr, this.bordrR.x + xgOffset);
-                Canvas.SetTop(bordr, this.bordrR.y + ygOffset);
+                Canvas.SetLeft(bordr, this.bordrR.x);
+                Canvas.SetTop(bordr, this.bordrR.y);
+
+                centr.Width = centrR.w;
+                centr.Height = centrR.h;
+                Canvas.SetLeft(centr, this.bordrR.x + (this.bordrR.w - this.centrR.w) / 2);
+                Canvas.SetTop(centr, this.bordrR.y + (this.bordrR.h - this.centrR.h) / 2);
+
 
                 StartNewInputCheckTimer();
 
