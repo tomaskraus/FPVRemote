@@ -110,19 +110,26 @@ namespace FPVRemote
 
 
             Point mouseLocation = GetMousePosition();
+            //Point mouseLocationP = System.Windows.Input.Mouse.GetPosition(CameraCanvas);
+            Point mouseLocationBordr = bordr.PointFromScreen(mouseLocation);
+            Point mouseLocationCentr = centr.PointFromScreen(mouseLocation);
             int mX = (int)mouseLocation.X;
             int mY = (int)mouseLocation.Y - yOffset;
 
+            bool inBordr = bordr.RenderedGeometry.FillContains(mouseLocationBordr);
+            bool inCentr = centr.RenderedGeometry.FillContains(mouseLocationCentr);
+
+
             if (armed)
             {
-                if (!bordrR.contains(mX, mY))
+                if (!inBordr)
                 {
                     results[CHsteer] = 127;
                     results[CHthrottle] = 127;
                     armed = false;
                 }
                 else
-                if (!centrR.contains(mX, mY))
+                if (inCentr)
                 {
                     // steer ----------------------------------
                     
@@ -149,7 +156,7 @@ namespace FPVRemote
                 }
             } else
             {
-                if (centrR.contains(mX, mY))
+                if (inCentr)
                 {
                     armed = true;
                 }
@@ -174,15 +181,16 @@ namespace FPVRemote
             }
 
 
-            bool b1 = centrR.contains(mX, mY);
-            bool b2 = bordrR.contains(mX, mY);
+            
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
             XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y
                 + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString()
-                + "\n  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n"
-                + "[" + mX.ToString() + ", " + mY.ToString() + "]"; 
+                + "\nc: " + inCentr.ToString() + "  : b: " + inBordr.ToString() + "\narmed: " + armed.ToString() + "\n"
+                + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
+                + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
+                ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();
         }
