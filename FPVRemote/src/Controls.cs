@@ -54,6 +54,20 @@ namespace FPVRemote
 
         // INIT -----------------------------------------------------------------
 
+        private void setArmed(bool armed)
+        {
+            if (armed)
+            {
+                this.armed = true;
+                centr.Stroke = System.Windows.Media.Brushes.White;
+            } else
+            {
+                this.armed = false;
+                centr.Stroke = System.Windows.Media.Brushes.Red;
+            }
+        }
+
+
         public void initInputControls(IniData data, ref short[] initialResults)
         {
             for (int i = 0; i < initialResults.Length; i++)
@@ -74,7 +88,7 @@ namespace FPVRemote
             deadZoneX = int.Parse(data["DEADZONE"]["x"]);
             deadZoneY = int.Parse(data["DEADZONE"]["y"]);
 
-            armed = false;
+            setArmed(false);
 
             // TODO make configurable. Reason: poor quality of cheap gamepads
             gamepadRangeMapping = new RangeMapping
@@ -132,7 +146,8 @@ namespace FPVRemote
                 {
                     results[CHsteer] = 127;
                     results[CHthrottle] = 127;
-                    armed = false;
+                    setArmed(false);
+                    centr.Stroke = System.Windows.Media.Brushes.Red;
                 }
                 else
                 if (!inCentr)
@@ -164,7 +179,7 @@ namespace FPVRemote
             {
                 if (inCentr)
                 {
-                    armed = true;
+                    setArmed(true);
                 }
             }
 
