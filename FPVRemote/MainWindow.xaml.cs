@@ -71,6 +71,11 @@ namespace FPVRemote
                 Canvas.SetLeft(centr, this.bordrR.x + (this.bordrR.w - this.centrR.w) / 2);
                 Canvas.SetTop(centr, this.bordrR.y + (this.bordrR.h - this.centrR.h) / 2);
 
+                deadzone.Width = deadZoneR.w;
+                deadzone.Height = deadZoneR.h;
+                Canvas.SetLeft(deadzone, this.bordrR.x + (this.bordrR.w - this.deadZoneR.w) / 2);
+                Canvas.SetTop(deadzone, this.bordrR.y + (this.bordrR.h - this.deadZoneR.h) / 2);
+
 
                 StartNewInputCheckTimer();
 

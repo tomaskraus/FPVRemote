@@ -25,16 +25,12 @@ namespace FPVRemote
 
         MyRect centrR;
         MyRect bordrR;
-
-        public int yOffset;
+        MyRect deadZoneR;
 
         bool armed;
 
         short minSpeed;
         short maxSpeed;
-
-        int deadZoneX;
-        int deadZoneY;
 
         const int CHsteer = 3;
         const int CHthrottle = 1;
@@ -80,13 +76,10 @@ namespace FPVRemote
             minSpeed = short.Parse(data["SPEED"]["min"]);
             maxSpeed = short.Parse(data["SPEED"]["max"]);
 
-            yOffset = short.Parse(data["OFFSET"]["y"]);
-
             centrR = new MyRect(0, 0, int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
 
-            deadZoneX = int.Parse(data["DEADZONE"]["x"]);
-            deadZoneY = int.Parse(data["DEADZONE"]["y"]);
+            deadZoneR = new MyRect(0, 0, bordrR.w - 2 * int.Parse(data["DEADZONE"]["x"]), bordrR.h - 2 * int.Parse(data["DEADZONE"]["y"]));
 
             setArmed(false);
 
@@ -125,14 +118,15 @@ namespace FPVRemote
 
             Point mouseLocation = GetMousePosition();
             Point mouseLocationBordr = bordr.PointFromScreen(mouseLocation);
+            Point mouseLocationDeadzone = deadzone.PointFromScreen(mouseLocation);
             Point mouseLocationCentr = centr.PointFromScreen(mouseLocation);
 
-            int mX = (int)mouseLocationBordr.X;
-            int mY = (int)mouseLocationBordr.Y;
+            int mX = (int)mouseLocationDeadzone.X;
+            int mY = (int)mouseLocationDeadzone.Y;
 
-            //assume the center is really centered
-            int centrMarginX = (int)((bordr.Width - centr.Width) / 2);
-            int centrMarginY = (int)((bordr.Height - centr.Height) / 2);
+            //already assumed the center is really centered
+            int centrMarginX = (int)((deadzone.Width - centr.Width) / 2);
+            int centrMarginY = (int)((deadzone.Height - centr.Height) / 2);
             int centrMarginXEnd = (int)(centrMarginX + centr.Width);
             int centrMarginYEnd = (int)(centrMarginY + centr.Height);
 
@@ -171,7 +165,7 @@ namespace FPVRemote
                         }
                         else if (mY > centrMarginYEnd)
                         {
-                            results[CHthrottle] = (short)(127 - ((mY - centrMarginYEnd) * ((double)(127 - minSpeed) / (centrMarginX))));
+                            results[CHthrottle] = (short)(127 - ((mY - centrMarginYEnd) * ((double)(127 - minSpeed) / (centrMarginY))));
                         }
                     
                 }
