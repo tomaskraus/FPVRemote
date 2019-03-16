@@ -25,16 +25,12 @@ namespace FPVRemote
 
         MyRect centrR;
         MyRect bordrR;
-
-        public int yOffset;
+        MyRect deadZoneR;
 
         bool armed;
 
         short minSpeed;
         short maxSpeed;
-
-        int deadZoneX;
-        int deadZoneY;
 
         const int CHsteer = 3;
         const int CHthrottle = 1;
@@ -54,6 +50,20 @@ namespace FPVRemote
 
         // INIT -----------------------------------------------------------------
 
+        private void setArmed(bool armed)
+        {
+            if (armed)
+            {
+                this.armed = true;
+                centr.Stroke = System.Windows.Media.Brushes.White;
+            } else
+            {
+                this.armed = false;
+                centr.Stroke = System.Windows.Media.Brushes.Red;
+            }
+        }
+
+
         public void initInputControls(IniData data, ref short[] initialResults)
         {
             for (int i = 0; i < initialResults.Length; i++)
@@ -66,15 +76,12 @@ namespace FPVRemote
             minSpeed = short.Parse(data["SPEED"]["min"]);
             maxSpeed = short.Parse(data["SPEED"]["max"]);
 
-            yOffset = short.Parse(data["OFFSET"]["y"]);
-
-            centrR = new MyRect(int.Parse(data["CENTER"]["x"]), int.Parse(data["CENTER"]["y"]), int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
+            centrR = new MyRect(0, 0, int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
 
-            deadZoneX = int.Parse(data["DEADZONE"]["x"]);
-            deadZoneY = int.Parse(data["DEADZONE"]["y"]);
+            deadZoneR = new MyRect(0, 0, bordrR.w - 2 * int.Parse(data["DEADZONE"]["x"]), bordrR.h - 2 * int.Parse(data["DEADZONE"]["y"]));
 
-            armed = false;
+            setArmed(false);
 
             // TODO make configurable. Reason: poor quality of cheap gamepads
             gamepadRangeMapping = new RangeMapping
@@ -110,50 +117,67 @@ namespace FPVRemote
 
 
             Point mouseLocation = GetMousePosition();
-            int mX = (int)mouseLocation.X;
-            int mY = (int)mouseLocation.Y - yOffset;
+            Point mouseLocationBordr = bordr.PointFromScreen(mouseLocation);
+            Point mouseLocationDeadzone = deadzone.PointFromScreen(mouseLocation);
+            Point mouseLocationCentr = centr.PointFromScreen(mouseLocation);
+
+            int mX = (int)mouseLocationDeadzone.X;
+            int mY = (int)mouseLocationDeadzone.Y;
+
+            //already assumed the center is really centered
+            int centrMarginX = (int)((deadzone.Width - centr.Width) / 2);
+            int centrMarginY = (int)((deadzone.Height - centr.Height) / 2);
+            int centrMarginXEnd = (int)(centrMarginX + centr.Width);
+            int centrMarginYEnd = (int)(centrMarginY + centr.Height);
+
+            bool inBordr = bordr.RenderedGeometry.FillContains(mouseLocationBordr);
+            bool inCentr = centr.RenderedGeometry.FillContains(mouseLocationCentr);
+
 
             if (armed)
             {
-                if (!bordrR.contains(mX, mY))
+                if (!inBordr)
                 {
                     results[CHsteer] = 127;
                     results[CHthrottle] = 127;
-                    armed = false;
+                    setArmed(false);
+                    centr.Stroke = System.Windows.Media.Brushes.Red;
                 }
                 else
-                if (!centrR.contains(mX, mY))
+                if (!inCentr)
                 {
                     // steer ----------------------------------
                     
-                        if (mX <= centrR.x)
+                        if (mX <= centrMarginX)
                         {
-                            results[CHsteer] = (short)(127 - (centrR.x - mX) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
+                            results[CHsteer] = (short)(127 - (centrMarginX - mX) * (127.0 / centrMarginX));
                         }
-                        else if (mX > centrR.xMax) 
+                        else if (mX > centrMarginXEnd) 
                         {
-                            results[CHsteer] = (short)(127 + (mX - centrR.xMax) * (127.0 / (centrR.x - bordrR.x - deadZoneX)));
+                            results[CHsteer] = (short)(127 + (mX - centrMarginXEnd) * (127.0 / centrMarginX));
                         }
 
                     // gas ------------------------------------
 
-                        if (mY <= centrR.y)
+                        if (mY <= centrMarginY)
                         {
-                            results[CHthrottle] = (short)(127 + ((centrR.y - mY) * ((double)(maxSpeed - 127) / (centrR.y - bordrR.y - deadZoneY))));
+                            results[CHthrottle] = (short)(127 + ((centrMarginY - mY) * ((double)(maxSpeed - 127) / (centrMarginY))));
                         }
-                        else if (mY > centrR.yMax)
+                        else if (mY > centrMarginYEnd)
                         {
-                            results[CHthrottle] = (short)(127 - ((mY - centrR.yMax) * ((double)(127 - minSpeed) / (bordrR.h - centrR.h - (centrR.y - bordrR.y - deadZoneY)))));
+                            results[CHthrottle] = (short)(127 - ((mY - centrMarginYEnd) * ((double)(127 - minSpeed) / (centrMarginY))));
                         }
                     
                 }
             } else
             {
-                if (centrR.contains(mX, mY))
+                if (inCentr)
                 {
-                    armed = true;
+                    setArmed(true);
                 }
             }
+
+            // ----- hard limits -------------------
 
             if (results[CHthrottle] < minSpeed)
             {
@@ -173,16 +197,17 @@ namespace FPVRemote
                 results[CHsteer] = 255;
             }
 
+            // -------------------------------------
 
-            bool b1 = centrR.contains(mX, mY);
-            bool b2 = bordrR.contains(mX, mY);
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
             XAxisTextBox.Text = gPad1.ThumbSticks.Left.X + ", " + gPad1.ThumbSticks.Right.Y
-                + "\n" + results[CHsteer].ToString() + ", " + results[CHthrottle].ToString()
-                + "\n  : (" + b1.ToString() + "  : " + b2.ToString() + ")  :: " + armed.ToString() + "\n"
-                + "[" + mX.ToString() + ", " + mY.ToString() + "]"; 
+                + "\nst: " + results[CHsteer].ToString() + ", th: " + results[CHthrottle].ToString()
+                + "\nc: " + inCentr.ToString() + "  : b: " + inBordr.ToString() + "\narmed: " + armed.ToString() + "\n"
+                + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
+                + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
+                ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();
         }
