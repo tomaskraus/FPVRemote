@@ -2,7 +2,8 @@
 
 ## Seznam zařízení
 
-### Pohonná baterie
+### Pohonná baterie (1.1)
+- 2 kusy, kapacita 1800mAh a 3300mAh
 - NiMh
   - vysoké samovybíjení
     - nabíjet max. den před použitím pro optimální výsledky
@@ -11,10 +12,29 @@
   - ! Při náročném použití (ostrá jízda) se může silně zahřívat (okolo 100°C)
   - před nabíjením nechte baterii vychladnout na pokojovou teplotu
   - při použití baterie venku v teplotách kolem bodu mrazu je dobré baterii zahřát (na 30°C a více)
+  - konektor baterie (1.1.1)
+    - konektor má na sobě západku. Tu je nutné stisknout při odpojování baterie.
   - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
 
-### FPV baterie
-- LiPol technologie, 2 články x 3.7V
+### základní nabíječka NiMh baterií (1.2)
+- pomalé nabíjení
+- doba nabití pro 1800mAh baterii: cca. 6h
+- nutno vypnout ze sítě po přesné době nabíjení, jinak hrozí přebití
+
+### rychlá nabíječka NiMh baterií (1.3)
+- Vysoký nabíjecí proud: 3A
+  - nepoužívat pro baterie kapacity menší než 3000mAh, jinak hrozí rychlé zničení baterie
+- doba nabíjení pro baterii 3300mAh: cca. 1h
+- automatické ukončení nabíjení, až je baterie nabitá
+- nabito je, když svítí zelená dioda
+
+### FPV baterie (2.1)
+- silový konektor (2.1.1)
+  - zapojuje se do auta
+- servisní/balanční konektor (2.1.2)
+  - zapojuje se do nabíječky
+  - vývody jednotlivých článků baterie 
+- LiPol technologie, 2 články x 3.7V, 850mAh
 - nízké samovybíjení
   - nabitá vydrží měsíce, ale doporučuje se baterii vybít na udržovací napětí, bude-li pár týdnů nepoužívaná
 - ! Potenciálně nebezpečná!
@@ -29,45 +49,90 @@
 - při použití baterie venku v teplotách kolem bodu mrazu je dobré baterii zahřát (na 30°C a více)
 - ! Při odpojování baterii držte vždy za konektor. Odpojování taháním za kabel může vést k sundání konektoru a zkratování vodičů s rizikem požáru!
 
+### nabíječka FPV baterie (2.2)
+- nabíječka LiPol baterií, s balancerem a odděleným síťovým adaptérem
+- doba nabíjení 800mAh baterie: cca. 1h
+- nabito je, když přestane svítit červená dioda
 
-### RC Auto
+
+### RC Auto (3)
 RC auto, upravené pro přenos obrazu FPV (First Person View)
-- konektor pro pohonnou baterii
-- FPV stojan
-  - FPV kamera
-    - krytka objektivu
-  - držák krytky kamery (opatření proti ztrátě krytky kamery)
-  - RC přijímač
-    - přijímá signál z vysílačky a ovládá auto (rychlost, zatáčení atd.)
-  - FPV vysílač
-    - přišroubovaná FPV anténa  
-    - napájecí konektor FPV vysílače
+- silový konektor pro pohonnou baterii (3.1)
+- RC přijímač (3.2)
+  - přijímá signál z vysílačky a ovládá auto (rychlost, zatáčení atd.)
+- regulátor (3.3)
+- motor (3.4)
+- servo řízení (3.5)
+- dok pro FPV baterii (3.6)
+  - chrání před nárazy a izoluje
+
+### FPV stojan (4)
+Funkční celek přidaný k autu, zajišťuje funkci FPV.
+  - FPV kamera (4.1)
+    - funguje i za nízkého osvětlení: přepne se na černobílý obraz
+    - na přenášeném obrazu zobrazuje čas od zapnutí kamery a aktuální napájecí napětí
+    - při nízkém napětí indikátor napětí bliká
+      - skončete jízdu a co nejdříve nabijte FPV baterii, abyste předešli poškození FPV baterie
+    - krytka objektivu kamery (4.2)
+  - držák krytky kamery (4.3)
+    - opatření proti ztrátě krytky kamery
+  - deformační prvek (4.4)
+    - vyměnitelný díl z překližky, přišroubovaný k FPV stojanu. Při kolizi FPV stojanu s překážkou se stojan zlomí v místě překližky a ochrání tak podvozkovou skupinu, ke keré je připevněn, od poškození.
+  - FPV vysílač (4.5)
+    - přišroubovaná FPV anténa (4.6) 
+    - napájecí konektor FPV vysílače (4.7)
       - připojte k FPV baterii jen po dobu provozu, vysílač se silně zahřívá!
       - nezapíntejte FPV vysílač bez antény, dojde k přehřátí a zničení FPV vysílače
-### Vysílačka
+  - nouzový silový konektor (4.8)
+    - napájení z pohonné baterie auta, připojit k napájecímu konektoru FPV (4.7)
+    - použijte, když není k dispozici FPV baterie
+    - při velké zátěži pohonné baterie (např. prudká akcelerace) nestačí tato napájet FPV a objeví se výpadky obrazu
+
+
+### Vysílačka (5)
 Slouží ke standardnímu ovládání auta. Pomocí kabelů a enkodéru se připojí k PC a pak se dá vysílačka z PC ovládat.
-- vypínač
-- přepínače
+- vypínač (5.1)
+- přepínače (5.2.1 - 5.2.4)
 - páky ovládání
+  - levá (5.3.1)
+  - pravá (5.3.2)
 - tlačítka menu
-  - up, down
-  - ok, cancel: (je rozeznáván krátký a dlouhý stisk)
+  - up (5.5.1), down (5.5.2)
+  - ok (5.5.3), cancel (5.5.4)
+    - je rozeznáván krátký a dlouhý stisk
 - ostatní ovládací prvky
-  - potenciometry (nepoužito pro FPV Auto)
-  - trimry
-    - trimr pro nastavení středové polohy zatáčení
-- trainer port (konektor): na zadní straně
+  - potenciometry (5.6.1, 5.6.2)
+    - nepoužito pro FPV Auto
+  - trimry (5.7.1 - 5.7.4)
+    - trimr pro nastavení středové polohy zatáčení (5.7.4)
+- trainer port (5.8)
+  - konektor na zadní straně vysílačky
+- šachta pro baterie (5.9)
+  - 4xAA, možné použít i nabíjecí (NiCd, NiMh)
 
 Po několika minutách nečinnosti začne zapnutá vysílačka pípat. Stiskněte tlačítko "cancel" na vysílačce, vysílačka pípat přestane.
 
-### Enkodér
+### Enkodér (6)
 Převádí komunikaci z usb portu PC do formátu srozumitelného vysílačce. Připojuje se k PC.
-- usb kabel k PC (kabel mini usb)
-- kabel k vysílačce (kabel jack-PS2)
-### FPV přijímač
+- usb kabel k PC (6.1)
+  - kabel mini usb
+- kabel k vysílačce (6.2)
+  - kabel jack-PS2
+- konektor pro připojení k PC (6.3)
+- konektor pro připojení k vysílačce (6.4)
+### FPV přijímač (7)
 - přijímá obrazový signál z auta do PC. Připojuje se k PC. 
   - zapojte k PC jen po dobu používání, poměrně hodně se zahřívá
-- usb kabel k PC (kabel mikro usb)
-### gamepad
-PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC.
-- není nutný k provozu
+- usb kabel k PC (7.1)
+  - kabel mikro usb
+- antény pro příjem (7.2)
+  - přijímač si vybírá ten lepší signál z jedné nebo druhé antény
+- tlačítka ladění (7.3, 7.4)
+  - jako u televize, každé tlačítko pro jednu anténu
+### gamepad (8)
+PC joystick pro alternativní ovládání auta z PC. Připojuje se k PC. Není nutný k provozu.
+- levá analogová páčka (8.1)
+    - ovládání plynu
+- pravá analogová páčka (8.2)
+    - zatáčení
+
