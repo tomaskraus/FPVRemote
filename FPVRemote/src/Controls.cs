@@ -46,6 +46,8 @@ namespace FPVRemote
         MultiRangeChanger throttleCurveChanger;
         MultiRangeChanger throttleLimitChanger;
 
+        BrakeChanger brakeChanger;
+
         LimiterChanger ThrottleHardLimitChanger;
         LimiterChanger SteerHardLimitChanger;
 
@@ -109,6 +111,7 @@ namespace FPVRemote
             
             SteerHardLimitChanger = new LimiterChanger(0, 255);
 
+            brakeChanger = new BrakeChanger(126, 10);
 
             //------------------------------------------------
 
@@ -139,8 +142,9 @@ namespace FPVRemote
             chgThrottle = chgInputThrottle
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
                 .Chain(throttleCurveChanger)
-                .Chain(throttleLimitChanger)
+                .Chain(throttleLimitChanger)              
                 .Chain(ThrottleHardLimitChanger)
+                .Chain(brakeChanger)
                 ;
 
         }
