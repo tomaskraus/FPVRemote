@@ -111,7 +111,7 @@ namespace FPVRemote
             
             SteerHardLimitChanger = new LimiterChanger(0, 255);
 
-            brakeChanger = new BrakeChanger(126, 10);
+            brakeChanger = new BrakeChanger(126, int.Parse(data["BRAKE"]["cycles"]));
 
             //------------------------------------------------
 
