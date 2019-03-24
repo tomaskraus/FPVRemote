@@ -17,10 +17,12 @@ namespace FPVRemote.valueChanger
 
 
     public class MapRangeChanger : AValueChanger
-    {
-        private RangeMapping mapping;
+    {                
+        public RangeMapping mapping
+        {
+            get;
+        }
         private float factor;
-
 
         public MapRangeChanger(RangeMapping mapping)
         {

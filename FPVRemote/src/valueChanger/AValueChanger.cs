@@ -23,6 +23,11 @@
             return ComputeImpl(value);
         }
 
+        public int ComputeValueDirectly(int val)
+        {
+            return ComputeImpl(val);
+        }
+
         protected abstract int ComputeImpl(int val);
     }
 }
