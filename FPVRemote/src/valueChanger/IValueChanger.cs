@@ -17,6 +17,11 @@ namespace FPVRemote.valueChanger
         int ComputeValue();
 
         /// <summary>
+        /// Computes a provided value directly
+        /// </summary>
+        int ComputeValueDirectly(int val);
+
+        /// <summary>
         /// Chains this changer easily. Assigns "this" as next changer's srcChanger.
         /// </summary>
         /// <example>     
