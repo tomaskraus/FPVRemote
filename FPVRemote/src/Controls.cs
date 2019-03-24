@@ -64,12 +64,17 @@ namespace FPVRemote
         }
 
 
-        public void initInputControls(IniData data, ref short[] initialResults)
+        private void resetResults(ref short[] initialResults)
         {
             for (int i = 0; i < initialResults.Length; i++)
             {
-                initialResults[i] = 128;
+                initialResults[i] = 127;
             }
+        }
+
+        public void initInputControls(IniData data, ref short[] initialResults)
+        {
+            resetResults(ref initialResults);
 
             //------------------------------------------------
 
@@ -94,11 +99,11 @@ namespace FPVRemote
 
             chgInputSteer = new InputChanger();
             chgSteer = chgInputSteer
-                .Chain(new MapRangeChanger(gamepadRangeMapping))
+                //.Chain(new MapRangeChanger(gamepadRangeMapping))
                 ;
             chgInputThrottle = new InputChanger();
             chgThrottle = chgInputThrottle
-                .Chain(new MapRangeChanger(gamepadRangeMapping))
+                //.Chain(new MapRangeChanger(gamepadRangeMapping))
                 ;
 
         }
@@ -108,12 +113,18 @@ namespace FPVRemote
 
         public void loopInputControls(ref short[] results)
         {
-            gPad1 = GamePad.GetState(PlayerIndex.One);
-            chgInputSteer.Input = (int)(gPad1.ThumbSticks.Left.X * ushort.MaxValue);
-            chgInputThrottle.Input = (int)(gPad1.ThumbSticks.Right.Y * ushort.MaxValue);
+            //always reset values
+            resetResults(ref results);
+            chgInputThrottle.Input = (int)results[CHthrottle];
+            chgInputSteer.Input = (int)results[CHsteer];
 
-            results[CHsteer] = (short)(chgSteer.ComputeValue());
-            results[CHthrottle] = (short)(chgThrottle.ComputeValue());
+
+            //gPad1 = GamePad.GetState(PlayerIndex.One);
+            //chgInputSteer.Input = (int)(gPad1.ThumbSticks.Left.X * ushort.MaxValue);
+            //chgInputThrottle.Input = (int)(gPad1.ThumbSticks.Right.Y * ushort.MaxValue);
+
+            //results[CHsteer] = (short)(chgSteer.ComputeValue());
+            //results[CHthrottle] = (short)(chgThrottle.ComputeValue());
 
 
             Point mouseLocation = GetMousePosition();
@@ -137,11 +148,8 @@ namespace FPVRemote
             if (armed)
             {
                 if (!inBordr)
-                {
-                    results[CHsteer] = 127;
-                    results[CHthrottle] = 127;
-                    setArmed(false);
-                    centr.Stroke = System.Windows.Media.Brushes.Red;
+                { 
+                    setArmed(false);                   
                 }
                 else
                 if (!inCentr)
@@ -150,22 +158,22 @@ namespace FPVRemote
                     
                         if (mX <= centrMarginX)
                         {
-                            results[CHsteer] = (short)(127 - (centrMarginX - mX) * (127.0 / centrMarginX));
+                            chgInputSteer.Input = (int)(127 - (centrMarginX - mX) * (127.0 / centrMarginX));
                         }
                         else if (mX > centrMarginXEnd) 
                         {
-                            results[CHsteer] = (short)(127 + (mX - centrMarginXEnd) * (127.0 / centrMarginX));
+                            chgInputSteer.Input = (int)(127 + (mX - centrMarginXEnd) * (127.0 / centrMarginX));
                         }
 
-                    // gas ------------------------------------
+                    // throttle ------------------------------------
 
                         if (mY <= centrMarginY)
                         {
-                            results[CHthrottle] = (short)(127 + ((centrMarginY - mY) * ((double)(maxSpeed - 127) / (centrMarginY))));
+                            chgInputThrottle.Input = (int)(127 + ((centrMarginY - mY) * (127.0 / (centrMarginY))));
                         }
                         else if (mY > centrMarginYEnd)
                         {
-                            results[CHthrottle] = (short)(127 - ((mY - centrMarginYEnd) * ((double)(127 - minSpeed) / (centrMarginY))));
+                            chgInputThrottle.Input = (int)(127 - ((mY - centrMarginYEnd) * (127.0 / (centrMarginY))));
                         }
                     
                 }
@@ -176,6 +184,9 @@ namespace FPVRemote
                     setArmed(true);
                 }
             }
+
+            results[CHthrottle] = (short)chgThrottle.ComputeValue();
+            results[CHsteer] = (short)chgSteer.ComputeValue();
 
             // ----- hard limits -------------------
 
