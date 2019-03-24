@@ -29,9 +29,6 @@ namespace FPVRemote
 
         bool armed;
 
-        short minSpeed;
-        short maxSpeed;
-
         const int CHsteer = 3;
         const int CHthrottle = 1;
         const int CHaux1 = 2;
@@ -48,6 +45,9 @@ namespace FPVRemote
 
         MultiRangeChanger throttleCurveChanger;
         MultiRangeChanger throttleLimitChanger;
+
+        LimiterChanger ThrottleHardLimitChanger;
+        LimiterChanger SteerHardLimitChanger;
 
         RangeMapping gamepadRangeMapping;
 
@@ -81,11 +81,6 @@ namespace FPVRemote
 
             //------------------------------------------------
 
-            minSpeed = short.Parse(data["SPEED"]["min"]);
-            maxSpeed = short.Parse(data["SPEED"]["max"]);
-
-            
-
 
             throttleCurveChanger = new MultiRangeChanger(
                 new RangeMapping { minFrom = 0, maxFrom = 255, minTo = 0, maxTo = 255 },
@@ -102,10 +97,18 @@ namespace FPVRemote
                 }
             );
 
+
+            ThrottleHardLimitChanger = new LimiterChanger(int.Parse(data["SPEED"]["min"]),
+                int.Parse(data["SPEED"]["max"])
+            );
             throttleLimitChanger = new MultiRangeChanger(new[] {
-                new MapRangeChanger(new RangeMapping { minFrom = 0, maxFrom = 127, minTo = minSpeed, maxTo = 127 }),
-                new MapRangeChanger(new RangeMapping { minFrom = 128, maxFrom = 255, minTo = 128, maxTo = maxSpeed })
+                new MapRangeChanger(new RangeMapping { minFrom = 0, maxFrom = 127, minTo = ThrottleHardLimitChanger.Min, maxTo = 127 }),
+                new MapRangeChanger(new RangeMapping { minFrom = 128, maxFrom = 255, minTo = 128, maxTo = ThrottleHardLimitChanger.Max })
             });
+
+            
+            SteerHardLimitChanger = new LimiterChanger(0, 255);
+
 
             //------------------------------------------------
 
@@ -130,12 +133,14 @@ namespace FPVRemote
             chgInputSteer = new InputChanger();
             chgSteer = chgInputSteer
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
+                .Chain(SteerHardLimitChanger)
                 ;
             chgInputThrottle = new InputChanger();
             chgThrottle = chgInputThrottle
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
                 .Chain(throttleCurveChanger)
                 .Chain(throttleLimitChanger)
+                .Chain(ThrottleHardLimitChanger)
                 ;
 
         }
@@ -218,30 +223,7 @@ namespace FPVRemote
             }
 
             results[CHthrottle] = (short)chgThrottle.ComputeValue();
-            results[CHsteer] = (short)chgSteer.ComputeValue();
-
-            // ----- hard limits -------------------
-
-            if (results[CHthrottle] < minSpeed)
-            {
-                results[CHthrottle] = minSpeed;
-            }
-            if (results[CHthrottle] > maxSpeed)
-            {
-                results[CHthrottle] = maxSpeed;
-            }
-
-            if (results[CHsteer] < 0)
-            {
-                results[CHsteer] = 0;
-            }
-            if (results[CHsteer] > 255)
-            {
-                results[CHsteer] = 255;
-            }
-
-            // -------------------------------------
-
+            results[CHsteer] = (short)chgSteer.ComputeValue();            
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
