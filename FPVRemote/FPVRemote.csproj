@@ -94,6 +94,7 @@
     <Compile Include="src\valueChanger\IValueChanger.cs" />
     <Compile Include="src\valueChanger\MapRangeChanger.cs" />
     <Compile Include="src\RCSender\SerialRCSender.cs" />
+    <Compile Include="src\valueChanger\MultiRangeChanger.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

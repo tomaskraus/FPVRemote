@@ -46,6 +46,8 @@ namespace FPVRemote
         IValueChanger chgThrottle;
         InputChanger chgInputThrottle;
 
+        MultiRangeChanger throttleLimitChanger;
+
         RangeMapping gamepadRangeMapping;
 
         // INIT -----------------------------------------------------------------
@@ -81,6 +83,14 @@ namespace FPVRemote
             minSpeed = short.Parse(data["SPEED"]["min"]);
             maxSpeed = short.Parse(data["SPEED"]["max"]);
 
+            throttleLimitChanger = new MultiRangeChanger(new[] {
+                new MapRangeChanger(new RangeMapping { minFrom = 0, maxFrom = 127, minTo = minSpeed, maxTo = 127 }),
+                new MapRangeChanger(new RangeMapping { minFrom = 128, maxFrom = 255, minTo = 128, maxTo = maxSpeed })
+            });
+
+
+            //------------------------------------------------
+
             centrR = new MyRect(0, 0, int.Parse(data["CENTER"]["w"]), int.Parse(data["CENTER"]["h"]));
             bordrR = new MyRect(int.Parse(data["BORDER"]["x"]), int.Parse(data["BORDER"]["y"]), int.Parse(data["BORDER"]["w"]), int.Parse(data["BORDER"]["h"]));
 
@@ -97,6 +107,8 @@ namespace FPVRemote
                 maxTo = 255
             };
 
+
+
             chgInputSteer = new InputChanger();
             chgSteer = chgInputSteer
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
@@ -104,6 +116,7 @@ namespace FPVRemote
             chgInputThrottle = new InputChanger();
             chgThrottle = chgInputThrottle
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
+                .Chain(throttleLimitChanger)
                 ;
 
         }
