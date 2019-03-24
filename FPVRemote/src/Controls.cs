@@ -90,7 +90,16 @@ namespace FPVRemote
             throttleCurveChanger = new MultiRangeChanger(
                 new RangeMapping { minFrom = 0, maxFrom = 255, minTo = 0, maxTo = 255 },
                 7,
-                new int[] { 0, 10, 20, 50, 80, 90, 100 }
+                new int[] {
+                    // quick and ugly
+                    int.Parse(data["THROTTLE"]["t0"]),
+                    int.Parse(data["THROTTLE"]["t1"]),
+                    int.Parse(data["THROTTLE"]["t2"]),
+                    int.Parse(data["THROTTLE"]["t3"]),
+                    int.Parse(data["THROTTLE"]["t4"]),
+                    int.Parse(data["THROTTLE"]["t5"]),
+                    int.Parse(data["THROTTLE"]["t6"])
+                }
             );
 
             throttleLimitChanger = new MultiRangeChanger(new[] {
