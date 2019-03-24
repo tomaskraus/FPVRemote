@@ -46,6 +46,7 @@ namespace FPVRemote
         IValueChanger chgThrottle;
         InputChanger chgInputThrottle;
 
+        MultiRangeChanger throttleCurveChanger;
         MultiRangeChanger throttleLimitChanger;
 
         RangeMapping gamepadRangeMapping;
@@ -83,11 +84,19 @@ namespace FPVRemote
             minSpeed = short.Parse(data["SPEED"]["min"]);
             maxSpeed = short.Parse(data["SPEED"]["max"]);
 
+            
+
+
+            throttleCurveChanger = new MultiRangeChanger(
+                new RangeMapping { minFrom = 0, maxFrom = 255, minTo = 0, maxTo = 255 },
+                7,
+                new int[] { 0, 10, 20, 50, 80, 90, 100 }
+            );
+
             throttleLimitChanger = new MultiRangeChanger(new[] {
                 new MapRangeChanger(new RangeMapping { minFrom = 0, maxFrom = 127, minTo = minSpeed, maxTo = 127 }),
                 new MapRangeChanger(new RangeMapping { minFrom = 128, maxFrom = 255, minTo = 128, maxTo = maxSpeed })
             });
-
 
             //------------------------------------------------
 
@@ -116,6 +125,7 @@ namespace FPVRemote
             chgInputThrottle = new InputChanger();
             chgThrottle = chgInputThrottle
                 //.Chain(new MapRangeChanger(gamepadRangeMapping))
+                .Chain(throttleCurveChanger)
                 .Chain(throttleLimitChanger)
                 ;
 
