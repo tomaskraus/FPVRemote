@@ -9,6 +9,7 @@ namespace FPVRemote.valueChanger
     class ThrottleStatisticChanger : AValueChanger
     {
         private int[] values;
+        private int index;
         private int minThrottle;
         private int maxThrottle;
         int NumberOfCycles
@@ -18,25 +19,33 @@ namespace FPVRemote.valueChanger
 
         public ThrottleStatisticChanger(int cycles)
         {
-            this.NumberOfCycles = cycles;
-            this.values = new int[cycles];
-            this.minThrottle = 256;
-            this.maxThrottle = 0;
+            NumberOfCycles = cycles;
+            values = new int[cycles];
+            index = 0;
         }
 
         protected override int ComputeImpl(int val, ChangerContext cc)
         {
+            values[index] = val;
 
-            if (val < minThrottle)
-            {
-                minThrottle = val;
+            minThrottle = 256;
+            maxThrottle = 0;
+            foreach (int v in values) {
+                if (v < minThrottle)
+                {
+                    minThrottle = v;
+                }
+                if (v > maxThrottle)
+                {
+                    maxThrottle = v;
+                }
             }
-            if (val > maxThrottle)
-            {
-                maxThrottle = val;
-            }
-            cc.minThrottle = minThrottle;
-            cc.maxThrottle = maxThrottle;
+
+            cc.minThrottleReached = minThrottle;
+            cc.maxThrottleReached = maxThrottle;
+
+            index = (index + 1) % NumberOfCycles;
+
             return val;
         }
     }
