@@ -56,9 +56,8 @@ namespace FPVRemote.valueChanger
                 case 1:
                     cnt--;
                     newVal = MIN_VAL;
-                    if (cnt <= 1) {
+                    if (cnt < 1) {
                         newVal = Threshold;
-                        prevVal = MIN_VAL;
                         state = 0;
                     }
                     break;
