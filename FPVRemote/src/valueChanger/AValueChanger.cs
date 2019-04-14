@@ -14,20 +14,20 @@
             return nextChanger;
         }
 
-        public int ComputeValue()
+        public int ComputeValue(ChangerContext cc)
         {
             if (SrcChanger != null)
             {
-                value = SrcChanger.ComputeValue();                                                                                            
+                value = SrcChanger.ComputeValue(cc);                                                                                            
             }
-            return ComputeImpl(value);
+            return ComputeImpl(value, cc);
         }
 
-        public int ComputeValueDirectly(int val)
+        public int ComputeValueDirectly(int val, ChangerContext cc)
         {
-            return ComputeImpl(val);
+            return ComputeImpl(val, cc);
         }
 
-        protected abstract int ComputeImpl(int val);
+        protected abstract int ComputeImpl(int val, ChangerContext cc);
     }
 }

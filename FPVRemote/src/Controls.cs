@@ -53,6 +53,8 @@ namespace FPVRemote
 
         RangeMapping gamepadRangeMapping;
 
+        ChangerContext chgContext;
+
         // INIT -----------------------------------------------------------------
 
         private void setArmed(bool armed)
@@ -79,6 +81,8 @@ namespace FPVRemote
 
         public void initInputControls(IniData data, ref short[] initialResults)
         {
+            chgContext = new ChangerContext();
+
             resetResults(ref initialResults);
 
             //------------------------------------------------
@@ -226,8 +230,10 @@ namespace FPVRemote
                 }
             }
 
-            results[CHthrottle] = (short)chgThrottle.ComputeValue();
-            results[CHsteer] = (short)chgSteer.ComputeValue();            
+            chgContext.cycles++;
+
+            results[CHthrottle] = (short)chgThrottle.ComputeValue(chgContext);
+            results[CHsteer] = (short)chgSteer.ComputeValue(chgContext);
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
@@ -236,6 +242,7 @@ namespace FPVRemote
                 + "\nc: " + inCentr.ToString() + "  : b: " + inBordr.ToString() + "\narmed: " + armed.ToString() + "\n"
                 + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
                 + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
+                + "\n " + chgContext.cycles.ToString()
                 ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();

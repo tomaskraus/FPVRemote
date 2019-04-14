@@ -19,7 +19,7 @@ namespace FPVRemote.valueChanger
         public InputChanger() { }
       
 
-        protected override int ComputeImpl(int val)
+        protected override int ComputeImpl(int val, ChangerContext cc)
         {
             return input;
         }

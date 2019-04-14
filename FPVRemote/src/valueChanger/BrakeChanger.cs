@@ -33,7 +33,7 @@ namespace FPVRemote.valueChanger
         }
 
 
-        protected override int ComputeImpl(int val)
+        protected override int ComputeImpl(int val, ChangerContext cc)
         {
             int newVal = val;
             switch (state)
