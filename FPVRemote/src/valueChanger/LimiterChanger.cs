@@ -23,7 +23,7 @@ namespace FPVRemote.valueChanger
             this.Max = max;
         }
 
-        protected override int ComputeImpl(int val)
+        protected override int ComputeImpl(int val, ChangerContext cc)
         {
             if (val < Min)
             {

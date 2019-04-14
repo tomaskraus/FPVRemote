@@ -14,12 +14,12 @@ namespace FPVRemote.valueChanger
         /// <summary>
         /// Computes this changer's value, using its source changer recursively.
         /// </summary>
-        int ComputeValue();
+        int ComputeValue(ChangerContext cc);
 
         /// <summary>
         /// Computes a provided value directly
         /// </summary>
-        int ComputeValueDirectly(int val);
+        int ComputeValueDirectly(int val, ChangerContext cc);
 
         /// <summary>
         /// Chains this changer easily. Assigns "this" as next changer's srcChanger.

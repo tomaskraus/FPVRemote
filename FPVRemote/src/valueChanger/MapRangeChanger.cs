@@ -30,7 +30,7 @@ namespace FPVRemote.valueChanger
             this.factor = (float)(this.mapping.maxTo - this.mapping.minTo) / (this.mapping.maxFrom - this.mapping.minFrom);
         }
 
-        protected override int ComputeImpl(int val)
+        protected override int ComputeImpl(int val, ChangerContext cc)
         {
             if (val < mapping.minFrom) {
                 val = mapping.minFrom;
