@@ -115,7 +115,7 @@ namespace FPVRemote
             
             SteerHardLimitChanger = new LimiterChanger(0, 255);
 
-            brakeChanger = new BrakeChanger(126, int.Parse(data["BRAKE"]["cycles"]));
+            brakeChanger = new BrakeChanger(126, int.Parse(data["BRAKE"]["previousMotionThreshold"]), int.Parse(data["BRAKE"]["cycles"]));
 
             //------------------------------------------------
 
@@ -244,7 +244,7 @@ namespace FPVRemote
                 + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
                 + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
                 + "\n " + chgContext.cycles.ToString()
-                + "\n " + chgContext.minThrottle.ToString() + ", " + chgContext.maxThrottle.ToString()
+                + "\n " + chgContext.minThrottleReached.ToString() + ", " + chgContext.maxThrottleReached.ToString()
                 ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();
