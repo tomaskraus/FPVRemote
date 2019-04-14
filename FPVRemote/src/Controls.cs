@@ -148,6 +148,7 @@ namespace FPVRemote
                 .Chain(throttleCurveChanger)
                 .Chain(throttleLimitChanger)              
                 .Chain(ThrottleHardLimitChanger)
+                .Chain(new ThrottleStatisticChanger(20))
                 .Chain(brakeChanger)
                 ;
 
@@ -243,6 +244,7 @@ namespace FPVRemote
                 + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
                 + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
                 + "\n " + chgContext.cycles.ToString()
+                + "\n " + chgContext.minThrottle.ToString() + ", " + chgContext.maxThrottle.ToString()
                 ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();

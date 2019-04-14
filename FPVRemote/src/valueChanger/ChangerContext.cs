@@ -12,5 +12,15 @@ namespace FPVRemote.valueChanger
         {
             get; set;
         }
+
+        public int minThrottle
+        {
+            get; set;
+        }
+
+        public int maxThrottle
+        {
+            get; set;
+        }
     }
 }
