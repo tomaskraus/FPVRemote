@@ -16,6 +16,10 @@ namespace FPVRemote.valueChanger
         {
             get;
         }
+        public int ReversePreviousMotionThreshold
+        {
+            get;
+        }
 
         public int CntLimit
         {
@@ -25,15 +29,16 @@ namespace FPVRemote.valueChanger
         private int prevVal;
         private int state;
         private int cnt;
-        const int MIN_VAL = 10; 
+        const int MIN_VAL = 10;
+        const int MAX_VAL = 145;
 
-
-        public BrakeChanger(int threshold, int previousMotionThreshold, int cntLimit)
+        public BrakeChanger(int threshold, int previousMotionThreshold, int reversePreviousMotionThreshold, int cntLimit)
         {
             this.Threshold = threshold;
             this.PreviousMotionThreshold = previousMotionThreshold;
+            this.ReversePreviousMotionThreshold = reversePreviousMotionThreshold;
             this.CntLimit = cntLimit;
-            prevVal = MIN_VAL;
+            prevVal = Threshold;
             state = 0;
         }
 
@@ -51,6 +56,13 @@ namespace FPVRemote.valueChanger
                         cnt = CntLimit;
                     }
 
+                    if (prevVal < Threshold && newVal == Threshold
+                        && cc.minThrottleReached <= ReversePreviousMotionThreshold)
+                    {
+                        state = -1;
+                        cnt = CntLimit;
+                    }
+
                     break;
 
                 case 1:
@@ -61,6 +73,18 @@ namespace FPVRemote.valueChanger
                         state = 0;
                     }
                     break;
+
+                case -1:
+                    cnt--;
+                    newVal = MAX_VAL;
+                    if (cnt < 1)
+                    {
+                        cnt = CntLimit / 4;
+
+                        state = 1;
+                    }
+                    break;
+
             }
 
             prevVal = newVal;
