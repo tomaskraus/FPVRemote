@@ -35,13 +35,13 @@ namespace FPVRemote.valueChanger
 
         protected override int ComputeImpl(int val)
         {
+            int newVal = val;
             switch (state)
             {
                 case 0:
-                    if (prevVal > Threshold && val <= Threshold)
+                    if (prevVal > Threshold && newVal <= Threshold)
                     {
                         state = 1;
-                        val = MIN_VAL;
                         cnt = CntLimit;
                     }
 
@@ -49,18 +49,18 @@ namespace FPVRemote.valueChanger
 
                 case 1:
                     cnt--;
-                    val = MIN_VAL;
+                    newVal = MIN_VAL;
                     if (cnt <= 1) {
-                        val = Threshold;
+                        newVal = Threshold;
                         prevVal = MIN_VAL;
                         state = 0;
                     }
                     break;
             }
 
-            prevVal = val;
+            prevVal = newVal;
 
-            return val;
+            return newVal;
         }
     }
 }
