@@ -49,7 +49,7 @@ namespace FPVRemote.valueChanger
             }
         }
 
-        protected override int ComputeImpl(int val)
+        protected override int ComputeImpl(int val, ChangerContext cc)
         {
             if (rangeChangers == null || rangeChangers.Length == 0)
             {
@@ -60,7 +60,7 @@ namespace FPVRemote.valueChanger
                 foreach (MapRangeChanger mr in rangeChangers)
                 {
                     
-                    v = mr.ComputeValueDirectly(val);
+                    v = mr.ComputeValueDirectly(val, cc);
                     if (val < mr.mapping.minFrom)
                     {
                         // too little, let it be

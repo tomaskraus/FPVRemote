@@ -53,6 +53,8 @@ namespace FPVRemote
 
         RangeMapping gamepadRangeMapping;
 
+        ChangerContext chgContext;
+
         // INIT -----------------------------------------------------------------
 
         private void setArmed(bool armed)
@@ -79,6 +81,8 @@ namespace FPVRemote
 
         public void initInputControls(IniData data, ref short[] initialResults)
         {
+            chgContext = new ChangerContext();
+
             resetResults(ref initialResults);
 
             //------------------------------------------------
@@ -111,7 +115,7 @@ namespace FPVRemote
             
             SteerHardLimitChanger = new LimiterChanger(0, 255);
 
-            brakeChanger = new BrakeChanger(126, int.Parse(data["BRAKE"]["cycles"]));
+            brakeChanger = new BrakeChanger(126, int.Parse(data["BRAKE"]["previousMotionThreshold"]), int.Parse(data["BRAKE"]["reversePreviousMotionThreshold"]), int.Parse(data["BRAKE"]["cycles"]));
 
             //------------------------------------------------
 
@@ -144,6 +148,7 @@ namespace FPVRemote
                 .Chain(throttleCurveChanger)
                 .Chain(throttleLimitChanger)              
                 .Chain(ThrottleHardLimitChanger)
+                .Chain(new ThrottleStatisticChanger(20))
                 .Chain(brakeChanger)
                 ;
 
@@ -226,8 +231,10 @@ namespace FPVRemote
                 }
             }
 
-            results[CHthrottle] = (short)chgThrottle.ComputeValue();
-            results[CHsteer] = (short)chgSteer.ComputeValue();            
+            chgContext.cycles++;
+
+            results[CHthrottle] = (short)chgThrottle.ComputeValue(chgContext);
+            results[CHsteer] = (short)chgSteer.ComputeValue(chgContext);
 
 
             //XAxisTextBox.Text = mouseLocation.X.ToString() + ", " + mouseLocation.Y.ToString() + "  : " + b.ToString();
@@ -236,6 +243,8 @@ namespace FPVRemote
                 + "\nc: " + inCentr.ToString() + "  : b: " + inBordr.ToString() + "\narmed: " + armed.ToString() + "\n"
                 + "\n[" + mX.ToString() + ", " + mY.ToString() + "]"
                 + "\n ml [" + mouseLocationBordr.X.ToString() + ", " + mouseLocationBordr.Y.ToString() + "]"
+                + "\n " + chgContext.cycles.ToString()
+                + "\n " + chgContext.minThrottleReached.ToString() + ", " + chgContext.maxThrottleReached.ToString()
                 ; 
                 // + "\ncentrX=" + centrR.x;
                 // + "\n" + (centrR.y - mY).ToString() + ":  " + ((double)maxSpeed / (centrR.y - bordrR.y)).ToString();

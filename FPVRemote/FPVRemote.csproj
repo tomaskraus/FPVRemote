@@ -91,6 +91,8 @@
     <Compile Include="src\myRect\MyRect.cs" />
     <Compile Include="src\valueChanger\AValueChanger.cs" />
     <Compile Include="src\valueChanger\BrakeChanger.cs" />
+    <Compile Include="src\valueChanger\ChangerContext.cs" />
+    <Compile Include="src\valueChanger\ThrottleStatisticChanger.cs" />
     <Compile Include="src\valueChanger\LimiterChanger.cs" />
     <Compile Include="src\valueChanger\InputChanger.cs" />
     <Compile Include="src\valueChanger\IValueChanger.cs" />
